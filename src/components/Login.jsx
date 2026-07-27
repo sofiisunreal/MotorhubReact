@@ -28,7 +28,7 @@ const Login = () => {
     try {
       const response = await api.post("core/login/", data);
 
-      console.log("Response:", response.data);
+      console.log("Response:", response);
 
       const { access_token, refresh_token, user } = response.data;
 

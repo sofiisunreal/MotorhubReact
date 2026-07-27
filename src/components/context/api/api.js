@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const api = axios.create({
   baseURL: 'https://sophiehiggs.alwaysdata.net/api/',
-  headers:{
+  headers: {
     "Content-Type": "application/json",
   }
 })
@@ -11,9 +11,11 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     const access_token = localStorage.getItem("access_token");
-    if (access_token) {
+    console.log(access_token)
+    if (access_token && config.url !== "core/login/") {
       config.headers.Authorization = `Bearer ${access_token}`;
     }
+
     return config;
   }
 );
