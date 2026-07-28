@@ -3,7 +3,7 @@ import SideBar from './SideBar'
 import { Outlet } from 'react-router-dom'
 import DashboardNav from '../DashboardNav'
 
-const StaffLayout = () => {
+const AdminLayout = () => {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -22,4 +22,4 @@ const StaffLayout = () => {
   )
 }
 
-export default StaffLayout
+export default AdminLayout

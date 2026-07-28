@@ -22,7 +22,7 @@ const NotFound = () => {
           onClick={() => navigate(-1)}
           className="px-5 py-3 bg-gray-200 hover:bg-gray-300 rounded-lg transition duration-300"
         >
-          <i class="bi bi-arrow-left"></i> Back
+          <i className="bi bi-arrow-left"></i> Back
         </button>
 
         <button

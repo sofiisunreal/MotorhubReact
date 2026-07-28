@@ -8,7 +8,7 @@ const SideBar = ({ isOpen, setIsOpen }) => {
     {
       name: "Dashboard",
       icon: "bi-speedometer2",
-      path: "/staff-dashboard",
+      path: "/admin-dashboard",
     },
     {
       name: "Cars",
@@ -71,8 +71,8 @@ const SideBar = ({ isOpen, setIsOpen }) => {
             </div>
 
             <div>
-              <h2 className="text-2xl font-bold">MotorHub</h2>
-              <p className="text-sm text-gray-200">Staff Dashboard</p>
+              <h2 className="text-2xl text-white font-bold">MotorHub</h2>
+              <p className="text-xs text-gray-200">Admin Dashboard</p>
             </div>
           </div>
 
@@ -84,7 +84,7 @@ const SideBar = ({ isOpen, setIsOpen }) => {
 
             <div>
               <h3 className="font-semibold">{user?.first_name}</h3>
-              <p className="text-xs text-gray-300">Staff Member</p>
+              <p className="text-xs text-gray-300"> Admin</p>
             </div>
           </div>
 
@@ -98,7 +98,7 @@ const SideBar = ({ isOpen, setIsOpen }) => {
               <NavLink
                 key={link.path}
                 to={link.path}
-                end={link.path === "/staff-dashboard"}
+                end={link.path === "/admin-dashboard"}
                 className={linkClass}
                 onClick={() => setIsOpen(false)}
               >
