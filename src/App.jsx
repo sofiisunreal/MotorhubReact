@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import NotAuthorized from './components/NotAuthorized'
 import NotFound from './components/NotFound'
@@ -7,36 +6,70 @@ import ProtectedRoute from './components/context/ProtectedRoute'
 import Login from './components/Login'
 import { AuthProvider } from './components/context/AuthContext'
 import StaffLayout from './components/staff/StaffLayout'
-import StaffDashboard from './components/staff/StaffDashboard'
 import AdminLayout from './components/admin/AdminLayout'
+import Settings from './components/Settings'
 
 function App() {
-  const [count, setCount] = useState(0)
+
   return (
-    < Router >
+    <Router>
+
       <AuthProvider>
 
         <Routes>
-          <Route path='staff-dashboard' element={
-            <ProtectedRoute allowedRoles={["staff"]}>
-              <StaffLayout />
-            </ProtectedRoute>
-          }>
+
+          {/* Staff */}
+          <Route
+            path="/staff-dashboard"
+            element={
+              <ProtectedRoute allowedRoles={["staff"]}>
+                <StaffLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route
+              path="settings"
+              element={<Settings />}
+            />
           </Route>
-          <Route path='admin-dashboard' element={
-            <ProtectedRoute allowedRoles={["admin"]}>
-              <AdminLayout />
-            </ProtectedRoute>
-          }>
+
+          {/* Admin */}
+          <Route
+            path="/admin-dashboard"
+            element={
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <AdminLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route
+              path="settings"
+              element={<Settings />}
+            />
           </Route>
-          {/* staff */}
-          <Route path="*" element={<NotFound />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/not-authorized' element={<NotAuthorized />} />
-          <Route path='/' element={<LandingPage />} />
+
+          <Route path="/login" element={<Login />} />
+
+          <Route
+            path="/not-authorized"
+            element={<NotAuthorized />}
+          />
+
+          <Route
+            path="/"
+            element={<LandingPage />}
+          />
+
+          <Route
+            path="*"
+            element={<NotFound />}
+          />
+
         </Routes>
+
       </AuthProvider>
-    </Router >
+
+    </Router>
   )
 }
 

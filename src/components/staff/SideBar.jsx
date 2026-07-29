@@ -18,7 +18,7 @@ const SideBar = ({ isOpen, setIsOpen }) => {
     {
       name: "Suppliers",
       icon: "bi-building",
-      path: "/suppliers",
+      path: "suppliers",
     },
     {
       name: "Sales",
@@ -112,7 +112,7 @@ const SideBar = ({ isOpen, setIsOpen }) => {
         {/* Bottom Section */}
         <div className="mt-auto border-t border-white/20 p-6 space-y-2">
           <NavLink
-            to="/settings"
+            to="settings"
             className={linkClass}
             onClick={() => setIsOpen(false)}
           >

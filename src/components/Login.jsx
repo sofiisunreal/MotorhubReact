@@ -30,7 +30,7 @@ const Login = () => {
 
       console.log("Response:", response);
 
-      const { access_token, refresh_token, user } = response.data;
+      const { access, refresh, user } = response.data;
 
       // Get user information from backend response
       const userData = {
@@ -39,12 +39,12 @@ const Login = () => {
       };
 
       // Save in context
-      setToken(access_token);
+      setToken(access);
       setUser(userData);
 
       // Save in localStorage
-      localStorage.setItem("access_token", access_token);
-      localStorage.setItem("refresh_token", refresh_token);
+      localStorage.setItem("access_token", access);
+      localStorage.setItem("refresh_token", refresh);
       localStorage.setItem("user", JSON.stringify(userData));
 
 
