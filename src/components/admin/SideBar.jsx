@@ -3,34 +3,7 @@ import { NavLink } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 const SideBar = ({ isOpen, setIsOpen }) => {
-  const { user } = useContext(AuthContext)
-  const links = [
-    {
-      name: "Dashboard",
-      icon: "bi-speedometer2",
-      path: "/admin-dashboard",
-    },
-    {
-      name: "Cars",
-      icon: "bi-car-front-fill",
-      path: "/cars",
-    },
-    {
-      name: "Suppliers",
-      icon: "bi-building",
-      path: "/suppliers",
-    },
-    {
-      name: "Sales",
-      icon: "bi-cart-check",
-      path: "/sales",
-    },
-    {
-      name: "Reports",
-      icon: "bi-graph-up",
-      path: "/reports",
-    },
-  ];
+  const { user, Logout } = useContext(AuthContext)
 
   const linkClass = ({ isActive }) =>
     `flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${isActive
@@ -50,20 +23,18 @@ const SideBar = ({ isOpen, setIsOpen }) => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed md:static top-0 left-0 z-50 h-screen w-64 bg-gradient-to-b from-slate-900 via-red-700 to-blue-900 shadow-2xl transform transition-transform duration-300 flex flex-col ${isOpen
-          ? "translate-x-0"
-          : "-translate-x-full md:translate-x-0"
+        className={`fixed md:static top-0 left-0 z-50 h-screen w-64
+  bg-gradient-to-b from-slate-900 via-red-700 to-blue-900
+  shadow-2xl transform transition-transform duration-300 flex flex-col
+  ${isOpen
+            ? "translate-x-0"
+            : "-translate-x-full md:translate-x-0"
           }`}
       >
-        {/* Mobile Close Button */}
-        <button
-          className="absolute top-4 right-4 md:hidden text-white text-2xl"
-          onClick={() => setIsOpen(false)}
-        >
-          <i className="bi bi-x-lg"></i>
-        </button>
 
-        <div className="p-6">
+        {/* Top Section */}
+        <div className="p-6 flex-1 overflow-y-auto">
+
           {/* Logo */}
           <div className="flex items-center gap-3 mb-8">
             <div className="w-12 h-12 rounded-xl bg-white text-red-700 flex items-center justify-center shadow-lg">
@@ -71,48 +42,75 @@ const SideBar = ({ isOpen, setIsOpen }) => {
             </div>
 
             <div>
-              <h2 className="text-2xl text-white font-bold">MotorHub</h2>
-              <p className="text-xs text-gray-200">Admin Dashboard</p>
+              <h2 className="text-2xl text-white font-bold">
+                MotorHub
+              </h2>
+              <p className="text-xs text-gray-200">
+                Admin Dashboard
+              </p>
             </div>
           </div>
 
+
           {/* User */}
           <div className="flex items-center gap-3 border-y border-white/20 py-5 mb-6">
+
             <div className="w-12 h-12 rounded-full bg-white text-red-700 flex items-center justify-center">
               <i className="bi bi-person-fill text-xl"></i>
             </div>
 
             <div>
-              <h3 className="font-semibold">{user?.first_name}</h3>
-              <p className="text-xs text-gray-300"> Admin</p>
+              <h3 className="font-semibold text-white">
+                {user?.username}
+              </h3>
+
+              <p className="text-xs text-gray-300 capitalize">
+                {user?.role}
+              </p>
             </div>
+
           </div>
+
 
           {/* Navigation */}
           <p className="text-xs uppercase tracking-widest text-gray-300 mb-3">
             Main Menu
           </p>
 
+
           <nav className="space-y-2">
-            {links.map((link) => (
-              <NavLink
-                key={link.path}
-                to={link.path}
-                end={link.path === "/admin-dashboard"}
-                className={linkClass}
-                onClick={() => setIsOpen(false)}
-              >
-                <i className={`bi ${link.icon} text-lg`}></i>
-                <span>{link.name}</span>
-              </NavLink>
-            ))}
+
+            <NavLink
+              to="/admin-dashboard"
+              end
+              className={linkClass}
+              onClick={() => setIsOpen(false)}
+            >
+              <i className="bi bi-speedometer2"></i>
+              <span>Dashboard</span>
+            </NavLink>
+
+
+            <NavLink
+              to="/admin-dashboard/supplier"
+              className={linkClass}
+              onClick={() => setIsOpen(false)}
+            >
+              <i className="bi bi-building"></i>
+              <span>Suppliers</span>
+            </NavLink>
+
           </nav>
+
+
         </div>
 
+
         {/* Bottom Section */}
-        <div className="mt-auto border-t border-white/20 p-6 space-y-2">
+        <div className="border-t border-white/20 p-6 space-y-2">
+
           <NavLink
-            to="/settings"
+            to="/admin-dashboard/settings"
             className={linkClass}
             onClick={() => setIsOpen(false)}
           >
@@ -120,12 +118,19 @@ const SideBar = ({ isOpen, setIsOpen }) => {
             <span>Settings</span>
           </NavLink>
 
-          <button className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-gray-200 hover:bg-red-600 transition-all duration-300">
+
+          <button onClick={Logout}
+            className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-gray-200 hover:bg-red-600 transition-all duration-300"
+          >
             <i className="bi bi-box-arrow-right"></i>
             <span>Logout</span>
           </button>
+
         </div>
+
+
       </aside>
+
     </>
   );
 };

@@ -8,6 +8,7 @@ import { AuthProvider } from './components/context/AuthContext'
 import StaffLayout from './components/staff/StaffLayout'
 import AdminLayout from './components/admin/AdminLayout'
 import Settings from './components/Settings'
+import Supplier from './components/admin/Supplier'
 
 function App() {
 
@@ -46,6 +47,7 @@ function App() {
               path="settings"
               element={<Settings />}
             />
+            <Route path='supplier' element={<Supplier />} />
           </Route>
 
           <Route path="/login" element={<Login />} />
