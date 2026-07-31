@@ -38,7 +38,7 @@ const DashboardNav = ({ onMenuClick }) => {
               </h1>
 
               <p className="text-sm text-gray-500">
-                Staff Dashboard
+                Your Dashboard
               </p>
             </div>
           </div>
