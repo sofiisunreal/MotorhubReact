@@ -44,21 +44,16 @@ const Settings = () => {
   };
 
 
-  // Update profile
+
   const updateProfile = async (e) => {
     e.preventDefault();
 
     try {
-
-      const response = await api.put(
-        "core/profile/",
-        profile
-      );
-
+      const response = await api.put("core/profile/",profile);
       setMessage(response.data.message);
       setError("");
 
-    } catch (err) {
+    } catch (error) {
       setError("Failed to update profile");
       setMessage("");
     }
@@ -66,26 +61,16 @@ const Settings = () => {
 
 
   // Password input
-  const handlePasswordChange = (e) => {
-    setPassword({
-      ...password,
-      [e.target.name]: e.target.value
-    });
+  const handlePasswordChange = (e) => {setPassword({...password,[e.target.name]: e.target.value });
   };
 
-
-  // Change password
   const changePassword = async (e) => {
     e.preventDefault();
-
     try {
-
       const response = await api.post(
         "/core/change-password/",
         password
       );
-
-
       setMessage(response.data.message);
       setError("");
 
@@ -96,10 +81,9 @@ const Settings = () => {
       });
 
 
-    } catch (err) {
-
+    } catch (error) {
       setError(
-        err.response?.data?.error ||
+        error.response?.data?.error ||
         "Password update failed"
       );
 
@@ -178,8 +162,6 @@ const Settings = () => {
               placeholder="Email"
               className="border p-3 rounded-lg"
             />
-
-
             <input
               name="phone_number"
               value={profile.phone_number || ""}
@@ -187,23 +169,14 @@ const Settings = () => {
               placeholder="Phone Number"
               className="border p-3 rounded-lg"
             />
-
           </div>
-
-
           <button
             className="mt-5 bg-gradient-to-r from-red-600 to-blue-700 text-white px-6 py-3 rounded-lg hover:opacity-90 transition"
           >
             Save Changes
           </button>
-
         </form>
-
       </div>
-
-
-
-
 
       {/* Password Card */}
       <div className="bg-white rounded-xl shadow-md p-6 mb-6">
@@ -229,29 +202,12 @@ const Settings = () => {
             />
 
 
-            <input
-              type="password"
-              name="new_password"
-              value={password.new_password}
-              onChange={handlePasswordChange}
-              placeholder="New Password"
+            <input type="password" name="new_password"  value={password.new_password} onChange={handlePasswordChange}  placeholder="New Password" className="w-full border p-3 rounded-lg" />
+
+            <input type="password" name="confirm_password" value={password.confirm_password} onChange={handlePasswordChange} placeholder="Confirm Password"
               className="w-full border p-3 rounded-lg"
             />
-
-
-            <input
-              type="password"
-              name="confirm_password"
-              value={password.confirm_password}
-              onChange={handlePasswordChange}
-              placeholder="Confirm Password"
-              className="w-full border p-3 rounded-lg"
-            />
-
-
           </div>
-
-
           <button
             className="mt-5 bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition"
           >
@@ -281,7 +237,6 @@ const Settings = () => {
         <p className="text-gray-500 text-sm mt-2">
           Developed by Sophie Kendi
         </p>
-
 
       </div>
 
