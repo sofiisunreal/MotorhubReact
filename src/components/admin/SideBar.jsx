@@ -99,6 +99,40 @@ const SideBar = ({ isOpen, setIsOpen }) => {
               <i className="bi bi-building"></i>
               <span>Suppliers</span>
             </NavLink>
+            <NavLink
+              to="/admin-dashboard/cars"
+              className={linkClass}
+              onClick={() => setIsOpen(false)}
+            >
+              <i className="bi bi-car-front"></i>
+              <span>Cars</span>
+            </NavLink>
+
+            <NavLink
+              to="/admin-dashboard/staff"
+              className={linkClass}
+              onClick={() => setIsOpen(false)}
+            >
+              <i className="bi bi-people-fill"></i>
+              <span>Staff</span>
+            </NavLink>
+            <NavLink
+              to="/admin-dashboard/sales"
+              className={linkClass}
+              onClick={() => setIsOpen(false)}
+            >
+              <i className="bi bi-cash-stack"></i>
+              <span>Sales</span>
+            </NavLink>
+
+            <NavLink
+              to="/admin-dashboard/notices"
+              className={linkClass}
+              onClick={() => setIsOpen(false)}
+            >
+              <i className="bi bi-bell-fill"></i>
+              <span>Notices</span>
+            </NavLink>
 
           </nav>
 

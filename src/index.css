@@ -12,9 +12,8 @@
   }
 
   .form-card {
-    @apply bg-white rounded-xl shadow-md border border-gray-200 p-8 max-w-3xl;
+    @apply bg-white rounded-xl shadow-md border border-gray-200 p-8 w-full;
   }
-
   .form-grid {
     @apply grid grid-cols-1 md:grid-cols-2 gap-5;
   }
@@ -28,7 +27,7 @@
   }
 
   .form-input {
-    @apply border border-gray-300 rounded-lg px-4 py-3 outline-none transition-all duration-200;
+    @apply border border-gray-300 rounded-lg px-4 m-2 py-3 outline-none transition-all duration-200;
   }
 
   .form-input:focus {

@@ -9,6 +9,10 @@ import StaffLayout from './components/staff/StaffLayout'
 import AdminLayout from './components/admin/AdminLayout'
 import Settings from './components/Settings'
 import Supplier from './components/admin/Supplier'
+import Cars from './components/admin/Cars'
+import Staff from './components/admin/Staff'
+import Sales from './components/admin/Sales'
+import Notices from './components/admin/Notices'
 
 function App() {
 
@@ -48,6 +52,10 @@ function App() {
               element={<Settings />}
             />
             <Route path='supplier' element={<Supplier />} />
+            <Route path='cars' element={<Cars />} />
+            <Route path="staff" element={<Staff />} />
+            <Route path="sales" element={<Sales />} />
+            <Route path="notices" element={<Notices />} />
           </Route>
 
           <Route path="/login" element={<Login />} />
