@@ -13,6 +13,7 @@ import Cars from './components/admin/Cars'
 import Staff from './components/admin/Staff'
 import Sales from './components/admin/Sales'
 import Notices from './components/admin/Notices'
+import AdminDashboard from './components/admin/AdminDashboard'
 
 function App() {
 
@@ -47,6 +48,7 @@ function App() {
               </ProtectedRoute>
             }
           >
+            <Route index element={<AdminDashboard />} />
             <Route
               path="settings"
               element={<Settings />}

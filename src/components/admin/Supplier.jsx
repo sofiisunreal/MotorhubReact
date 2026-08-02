@@ -19,30 +19,19 @@ const Supplier = () => {
   const formRef = useRef(null);
 
   const FetchSupplier = async () => {
-
     setLoading(true);
-
     try {
-
       const { data } = await api.get(
         "suppliers/viewsuppliers/"
       );
-
       setSuppliers(data);
-
     } catch (error) {
-
       console.log(error);
-
     } finally {
-
       setLoading(false);
-
     }
-
   }
   useEffect(() => {
-
     FetchSupplier();
   }, []);
   useEffect(() => {
@@ -58,19 +47,32 @@ const Supplier = () => {
 
   // edit suppliers
   const HandleEdit = (supplier) => {
-
     console.log("Editing:", supplier);
 
     setEditingId(supplier.id);
-
     setCompanyName(supplier.company_name);
     setContactPerson(supplier.contact_person);
     setPhoneNumber(supplier.phone_number);
     setEmail(supplier.email);
     setAddress(supplier.address);
-
     setShowForm(true);
-  };  // cancel
+  };
+  const HandleToggleStatus = async (id, isActive) => {
+    const confirmed = window.confirm(
+      isActive
+        ? "Are you sure you want to deactivate this supplier?"
+        : "Are you sure you want to activate this supplier?"
+    )
+
+    if (!confirmed) return
+    try {
+      await api.patch(`suppliers/${id}/toggle-status/`)
+      FetchSupplier()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  // cancel
   const HandleCancel = () => {
 
     setCompanyName("");
@@ -123,6 +125,18 @@ const Supplier = () => {
       setLoading(false);
     }
   };
+  const StatusBadge = ({ status }) => {
+    return (
+      <span
+        className={`px-3 py-1 rounded-full text-sm font-semibold ${status
+          ? "bg-green-100 text-green-700"
+          : "bg-red-100 text-red-700"
+          }`}
+      >
+        {status ? "Active" : "Inactive"}
+      </span>
+    )
+  }
   return (
     <div className="page-container">
       <div className="flex items-center justify-between mb-6">
@@ -302,35 +316,21 @@ const Supplier = () => {
         </div>
 
         <div className="overflow-x-auto">
-
           <table className="w-full">
-
             <thead className="bg-gray-100">
-
               <tr>
-
                 <th className="p-3 text-left">Company</th>
-
                 <th className="p-3 text-left">Contact</th>
-
                 <th className="p-3 text-left">Phone</th>
-
                 <th className="p-3 text-left">Email</th>
-
                 <th className="p-3 text-left">Address</th>
-
+                <th className="p-3 text-left">Status</th>
                 <th className="p-3 text-center">Action</th>
-
               </tr>
-
             </thead>
-
             <tbody>
-
               {suppliers.length === 0 ? (
-
                 <tr>
-
                   <td
                     colSpan="6"
                     className="text-center p-6 text-gray-500"
@@ -343,60 +343,58 @@ const Supplier = () => {
               ) : (
 
                 suppliers.map((supplier) => (
-
                   <tr
                     key={supplier.id}
                     className="border-b hover:bg-gray-50"
                   >
-
                     <td className="p-3">
                       {supplier.company_name}
                     </td>
-
                     <td className="p-3">
                       {supplier.contact_person}
                     </td>
-
                     <td className="p-3">
                       {supplier.phone_number}
                     </td>
-
                     <td className="p-3">
                       {supplier.email}
                     </td>
-
                     <td className="p-3">
                       {supplier.address}
                     </td>
-
+                    <td className="p-4">
+                      <StatusBadge status={supplier.is_active} />
+                    </td>
                     <td className="p-3 text-center">
-
                       <button
                         onClick={() => HandleEdit(supplier)}
                         className="text-blue-600 hover:text-blue-800 font-medium"
                       >
                         <i className="bi bi-pencil-square mr-2"></i>
-
                         Edit
-
                       </button>
-
+                      <button
+                        onClick={() => HandleToggleStatus(supplier.id, supplier.is_active)}
+                        className={`ml-2 ${supplier.is_active
+                          ? "bg-red-500 hover:bg-red-600"
+                          : "bg-green-500 hover:bg-green-600"
+                          } text-white py-1 px-3 rounded`}
+                      >
+                        <i
+                          className={`bi ${supplier.is_active
+                            ? "bi-building-x"
+                            : "bi-building-check"
+                            }`}
+                        ></i>
+                      </button>
                     </td>
-
                   </tr>
-
                 ))
-
               )}
-
             </tbody>
-
           </table>
-
         </div>
-
       </div>
-
     </div >
   );
 };

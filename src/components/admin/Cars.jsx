@@ -322,13 +322,14 @@ const Cars = () => {
                   Price: Ksh {Number(car.buying_price).toLocaleString()}
                 </p>
                 <StatusBadge status={car.status} />
-                <button
-                  className="mt-4 text-blue-600 block"
-                  onClick={() => HandleEdit(car)}
-                >
-                  <i className="bi bi-pencil-square"></i>
-
-                </button>
+                {car.status !== "sold" && (
+                  <button
+                    onClick={() => HandleEdit(car)}
+                    className="mt-4 block btn-primary"
+                  >
+                    <i className="bi bi-pencil-square"></i>
+                  </button>
+                )}
               </div>
             </div>
           ))}

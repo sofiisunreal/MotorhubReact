@@ -71,6 +71,21 @@ const Staff = () => {
     setRole(member.role)
     setShowForm(true)
   }
+  const HandleToggleStatus = async (id, isActive) => {
+    const confirmed = window.confirm(
+      isActive
+        ? "Are you sure you want to deactivate this staff member?"
+        : "Are you sure you want to activate this staff member?"
+    )
+
+    if (!confirmed) return
+    try {
+      await api.patch(`core/staff/${id}/toggle-status/`)
+      FetchStaff()
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const HandleSubmit = async (e) => {
     e.preventDefault()
@@ -120,6 +135,18 @@ const Staff = () => {
     return (
       <span className={`px-3 py-1 rounded-full text-sm font-semibold ${styles[role] || "bg-gray-100 text-gray-700"}`}>
         {role}
+      </span>
+    )
+  }
+  const StatusBadge = ({ status }) => {
+    return (
+      <span
+        className={`px-3 py-1 rounded-full text-sm font-semibold ${status
+          ? "bg-green-100 text-green-700"
+          : "bg-red-100 text-red-700"
+          }`}
+      >
+        {status ? "Active" : "Inactive"}
       </span>
     )
   }
@@ -253,6 +280,7 @@ const Staff = () => {
                 <th className="p-4">Staff</th>
                 <th className="p-4">Contact</th>
                 <th className="p-4">Role</th>
+                <th className="p-4">Status</th>
                 <th className="p-4 text-right">Actions</th>
               </tr>
             </thead>
@@ -277,6 +305,9 @@ const Staff = () => {
                   <td className="p-4">
                     <RoleBadge role={member.role} />
                   </td>
+                  <td className="p-4">
+                    <StatusBadge status={member.is_active} />
+                  </td>
                   <td className="p-4 text-right">
                     <button
                       onClick={() => HandleEdit(member)}
@@ -284,6 +315,18 @@ const Staff = () => {
                       aria-label={`Edit ${member.username}`}
                     >
                       <i className="bi bi-pencil-square"></i>
+                    </button>
+                    <button
+                      onClick={() => HandleToggleStatus(member.id, member.isActive)}
+                      className={`ml-2 ${member.is_active
+                        ? "bg-red-500 hover:bg-red-600"
+                        : "bg-green-500 hover:bg-green-600"
+                        } text-white font-bold py-1 px-3 rounded`}
+                    >
+                      <i className={`bi ${member.is_active
+                        ? "bi-person-x"
+                        : "bi-person-check"
+                        }`}></i>
                     </button>
                   </td>
                 </tr>
