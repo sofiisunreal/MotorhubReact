@@ -52,34 +52,12 @@ const SideBar = ({ isOpen, setIsOpen }) => {
           </div>
 
 
-          {/* User */}
-          <div className="flex items-center gap-3 border-y border-white/20 py-5 mb-6">
-
-            <div className="w-12 h-12 rounded-full bg-white text-red-700 flex items-center justify-center">
-              <i className="bi bi-person-fill text-xl"></i>
-            </div>
-
-            <div>
-              <h3 className="font-semibold text-white">
-                {user?.username}
-              </h3>
-
-              <p className="text-xs text-gray-300 capitalize">
-                {user?.role}
-              </p>
-            </div>
-
-          </div>
-
-
           {/* Navigation */}
           <p className="text-xs uppercase tracking-widest text-gray-300 mb-3">
             Main Menu
           </p>
 
-
           <nav className="space-y-2">
-
             <NavLink
               to="/admin-dashboard"
               end
