@@ -8,6 +8,9 @@ const Notices = () => {
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
 
+  const [archivedNotices, setArchivedNotices] = useState([])
+  const [showArchived, setShowArchived] = useState(false)
+
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState("")
@@ -15,19 +18,30 @@ const Notices = () => {
 
   const formRef = useRef(null)
 
+
   const FetchNotices = async () => {
     setLoading(true)
     try {
-      const { data } = await api.get("notices/notices/")
-      setNotices(data)
+      const active = await api.get("notices/notices/")
+      setNotices(active.data)
     } catch (error) {
       console.error("Error fetching notices:", error)
       setError("Failed to fetch notices.")
+
     } finally {
       setLoading(false)
     }
   }
+  const FetchArchivedNotices = async () => {
+    try {
+      const { data } = await api.get("notices/notices/archived/")
+      setArchivedNotices(data)
 
+    } catch (error) {
+      console.error("Error fetching archived notices:", error)
+      setError("Failed to fetch archived notices.")
+    }
+  }
   useEffect(() => {
     FetchNotices()
   }, [])
@@ -37,7 +51,35 @@ const Notices = () => {
       formRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
   }, [showForm])
-
+  const HandleArchive = async (id) => {
+    const confirmArchive = window.confirm(
+      "Are you sure you want to archive this notice?"
+    )
+    if (!confirmArchive) return
+    try {
+      await api.patch(`notices/notices/${id}/archive/`)
+      setMessage("Notice archived successfully.")
+      FetchNotices()
+    } catch (error) {
+      console.error("Error archiving notice:", error)
+      setError("Failed to archive notice.")
+    }
+  }
+  const HandleRestore = async (id) => {
+    const confirmRestore = window.confirm(
+      "Restore this notice?"
+    )
+    if (!confirmRestore) return
+    try {
+      await api.patch(`notices/notices/${id}/restore/`)
+      setMessage("Notice restored successfully.")
+      FetchNotices()
+      FetchArchivedNotices()
+    } catch (error) {
+      console.error("Error restoring notice:", error)
+      setError("Failed to restore notice.")
+    }
+  }
   const HandleCancelEdit = () => {
     setEditingId(null)
     setShowForm(false)
@@ -159,21 +201,84 @@ const Notices = () => {
           {notices.map((notice) => (
             <div key={notice.id} className="bg-white p-4 rounded-xl shadow space-y-2">
               <div className="flex justify-between items-start gap-4">
-                <h3 className="text-lg font-semibold">{notice.title}</h3>
-                <button
-                  onClick={() => HandleEdit(notice)}
-                  className="text-blue-600 shrink-0"
-                  aria-label={`Edit ${notice.title}`}
-                >
-                  <i className="bi bi-pencil-square"></i>
-                </button>
+                <h3 className="text-lg font-semibold">
+                  {notice.title}
+                </h3>
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => HandleEdit(notice)}
+                    className="text-blue-600 hover:text-blue-800"
+                    aria-label={`Edit ${notice.title}`}
+                  >
+                    <i className="bi bi-pencil-square"></i>
+                  </button>
+                  <button
+                    onClick={() => HandleArchive(notice.id)}
+                    className="text-yellow-600 hover:text-yellow-800"
+                    aria-label={`Archive ${notice.title}`}
+                  >
+                    <i className="bi bi-archive"></i>
+                  </button>
+                </div>
               </div>
               <p className="text-gray-600 whitespace-pre-wrap">{notice.description}</p>
               <p className="text-gray-400 text-sm">Posted on: {new Date(notice.created_at).toLocaleString()}</p>
             </div>
           ))}
-        </div>
+          <button
+            onClick={() => {
+              setShowArchived(!showArchived)
 
+              if (!showArchived) {
+                FetchArchivedNotices()
+              }
+            }}
+            className="btn-secondary w-full mt-6"
+          >
+            <i className="bi bi-archive mr-2"></i>
+            {showArchived
+              ? "Hide Archived Notices"
+              : "See Archived Notices"
+            }
+          </button>
+          {showArchived && (
+            <div className="mt-6 space-y-4">
+              <h2 className="text-xl font-bold">
+                Archived Notices
+              </h2>
+              {archivedNotices.length === 0 ? (
+                <p className="text-gray-500">
+                  No archived notices.
+                </p>
+              ) : (
+                archivedNotices.map((notice) => (
+                  <div
+                    key={notice.id}
+                    className="bg-gray-100 p-4 rounded-xl shadow space-y-2"
+                  >
+                    <div className="flex justify-between items-start">
+                      <h3 className="text-lg font-semibold">
+                        {notice.title}
+                      </h3>
+                      <button
+                        onClick={() => HandleRestore(notice.id)}
+                        className="text-green-600 hover:text-green-800"
+                      >
+                        <i className="bi bi-arrow-counterclockwise"></i>
+                      </button>
+                    </div>
+                    <p className="text-gray-600">
+                      {notice.description}
+                    </p>
+                    <p className="text-gray-400 text-sm">
+                      Posted on: {new Date(notice.created_at).toLocaleString()}
+                    </p>
+                  </div>
+                ))
+              )}
+            </div>
+          )}
+        </div>
       )}
     </div>
   )

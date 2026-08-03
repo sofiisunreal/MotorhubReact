@@ -11,6 +11,7 @@ const Supplier = () => {
 
   const [showForm, setShowForm] = useState(false)
   const [editingId, setEditingId] = useState(null)
+  const [selectedSupplier, setSelectedSupplier] = useState(null)
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -57,6 +58,20 @@ const Supplier = () => {
     setAddress(supplier.address);
     setShowForm(true);
   };
+  const HandleView = (supplier) => {
+    setSelectedSupplier(supplier)
+    setIsEditing(false)
+    setError("")
+    setMessage("")
+  }
+  const HandleCloseModal = () => {
+    setSelectedSupplier(null)
+    setIsEditing(false)
+    setError("")
+    setMessage("")
+  }
+
+
   const HandleToggleStatus = async (id, isActive) => {
     const confirmed = window.confirm(
       isActive
@@ -303,8 +318,7 @@ const Supplier = () => {
       )}
       <div className="form-card  max-w-full mt-8">
 
-        <div className="flex justify-between items-center mb-6">
-
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
           <h3 className="text-xl font-bold">
             Supplier List
           </h3>
@@ -320,10 +334,8 @@ const Supplier = () => {
             <thead className="bg-gray-100">
               <tr>
                 <th className="p-3 text-left">Company</th>
+                <th className="p-3 text-left">Cars Supplied</th>
                 <th className="p-3 text-left">Contact</th>
-                <th className="p-3 text-left">Phone</th>
-                <th className="p-3 text-left">Email</th>
-                <th className="p-3 text-left">Address</th>
                 <th className="p-3 text-left">Status</th>
                 <th className="p-3 text-center">Action</th>
               </tr>
@@ -332,7 +344,7 @@ const Supplier = () => {
               {suppliers.length === 0 ? (
                 <tr>
                   <td
-                    colSpan="6"
+                    colSpan="5"
                     className="text-center p-6 text-gray-500"
                   >
                     No suppliers found.
@@ -351,31 +363,27 @@ const Supplier = () => {
                       {supplier.company_name}
                     </td>
                     <td className="p-3">
+                      <span className="px-3 py-1 rounded-full text-sm font-semibold bg-blue-100 text-blue-700">
+                        {supplier.cars_supplied}
+                      </span>
+                    </td>
+                    <td className="p-3">
                       {supplier.contact_person}
-                    </td>
-                    <td className="p-3">
-                      {supplier.phone_number}
-                    </td>
-                    <td className="p-3">
-                      {supplier.email}
-                    </td>
-                    <td className="p-3">
-                      {supplier.address}
                     </td>
                     <td className="p-4">
                       <StatusBadge status={supplier.is_active} />
                     </td>
                     <td className="p-3 text-center">
                       <button
-                        onClick={() => HandleEdit(supplier)}
+                        onClick={() => HandleView(supplier)}
                         className="text-blue-600 hover:text-blue-800 font-medium"
                       >
-                        <i className="bi bi-pencil-square mr-2"></i>
-                        Edit
+                        <i className="bi bi-eye mr-2"></i>
+                        View
                       </button>
                       <button
                         onClick={() => HandleToggleStatus(supplier.id, supplier.is_active)}
-                        className={`ml-2 ${supplier.is_active
+                        className={`ml-4 ${supplier.is_active
                           ? "bg-red-500 hover:bg-red-600"
                           : "bg-green-500 hover:bg-green-600"
                           } text-white py-1 px-3 rounded`}
@@ -395,6 +403,110 @@ const Supplier = () => {
           </table>
         </div>
       </div>
+      {selectedSupplier && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg">
+
+            {/* Header */}
+            <div className="flex justify-between items-center border-b p-5">
+              <h2 className="text-xl font-bold">Supplier Details</h2>
+
+              <button
+                onClick={HandleCloseModal}
+                className="text-gray-500 hover:text-gray-700 text-2xl"
+              >
+                &times;
+              </button>
+            </div>
+
+            {/* Body */}
+            <div className="p-6 space-y-4">
+
+              <div className="grid grid-cols-2 gap-y-4">
+
+                <span className="text-gray-500">Company</span>
+                <span className="font-semibold text-right">
+                  {selectedSupplier.company_name}
+                </span>
+
+                <span className="text-gray-500">Contact</span>
+                <span className="font-semibold text-right">
+                  {selectedSupplier.contact_person}
+                </span>
+
+                <span className="text-gray-500">Phone</span>
+                <span className="font-semibold text-right">
+                  {selectedSupplier.phone_number}
+                </span>
+
+                <span className="text-gray-500">Email</span>
+                <span className="font-semibold text-right break-all">
+                  {selectedSupplier.email}
+                </span>
+
+                <span className="text-gray-500">Address</span>
+                <span className="font-semibold text-right">
+                  {selectedSupplier.address}
+                </span>
+
+                <span className="text-gray-500">Cars Supplied</span>
+                <span className="text-right">
+                  <span className="inline-flex items-center justify-center px-3 py-1 rounded-full bg-blue-100 text-blue-700 font-semibold">
+                    {selectedSupplier.cars_supplied}
+                  </span>
+                </span>
+
+                <span className="text-gray-500">Status</span>
+                <span className="text-right">
+                  <StatusBadge status={selectedSupplier.is_active} />
+                </span>
+
+              </div>
+
+              {/* Buttons */}
+              <div className="flex justify-end gap-3 pt-4 border-t">
+
+                <button
+                  onClick={() => {
+                    HandleEdit(selectedSupplier);
+                    HandleCloseModal()
+                  }}
+                  className="btn-primary"
+                >
+                  <i className="bi bi-pencil-square mr-2"></i>
+                  Edit
+                </button>
+
+                <button
+                  onClick={() =>
+                    HandleToggleStatus(
+                      selectedSupplier.id,
+                      selectedSupplier.is_active
+                    )
+                  }
+                  className={`${selectedSupplier.is_active
+                    ? "bg-red-500 hover:bg-red-600"
+                    : "bg-green-500 hover:bg-green-600"
+                    } text-white px-4 py-2 rounded-lg`}
+                >
+                  {selectedSupplier.is_active ? "Deactivate" : "Activate"}
+                </button>
+
+                <button
+                  onClick={HandleCloseModal}
+                  className="btn-secondary"
+                >
+                  Close
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      )}
+
     </div >
   );
 };

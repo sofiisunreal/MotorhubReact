@@ -78,7 +78,7 @@ const AdminDashboard = () => {
         <p className="text-gray-600">Here's how the dealership is performing</p>
       </div>
 
-      {/* Hero: total revenue */}
+      {/* Hero */}
       <div className="relative overflow-hidden rounded-2xl shadow-lg p-8 text-white bg-gradient-to-br from-blue-600 via-blue-700 to-red-600">
         <i className="bi bi-car-front-fill absolute -right-6 -bottom-10 text-[180px] text-white/10 pointer-events-none"></i>
         <div className="relative z-10 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
@@ -99,7 +99,6 @@ const AdminDashboard = () => {
         </div>
       </div>
 
-      {/* Org / inventory snapshot */}
       <div>
         <p className="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">Overview</p>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">

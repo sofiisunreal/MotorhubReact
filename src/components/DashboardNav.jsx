@@ -48,7 +48,7 @@ const DashboardNav = ({ onMenuClick }) => {
         {/* Centre */}
         <div className="hidden lg:block text-center">
           <p className="text-sm font-semibold text-gray-800">
-            Welcome back, {user?.first_name || user?.username}! 👋
+            Welcome back, {user?.first_name || user?.username}!
           </p>
 
           <p className="text-xs text-gray-500">
@@ -58,28 +58,8 @@ const DashboardNav = ({ onMenuClick }) => {
 
         {/* Right Side */}
         <div className="flex items-center gap-4">
-
-          {/* Search */}
-          <div className="hidden xl:flex items-center bg-gray-100 rounded-lg px-3 py-2">
-            <i className="bi bi-search text-gray-400"></i>
-
-            <input
-              type="text"
-              placeholder="Search vehicles..."
-              className="bg-transparent outline-none ml-2 text-sm w-48"
-            />
-          </div>
-
-          {/* Notifications */}
-          <button className="relative p-2 rounded-full hover:bg-gray-100 transition">
-            <i className="bi bi-bell text-xl text-gray-600"></i>
-
-            <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
-          </button>
-
           {/* User */}
           <div className="hidden sm:flex items-center gap-3 bg-gray-100 px-4 py-2 rounded-full">
-
             <div className="w-10 h-10 rounded-full bg-gradient-to-br from-red-600 to-blue-700 text-white flex items-center justify-center font-bold">
               {user?.username?.charAt(0).toUpperCase()}
             </div>
@@ -99,7 +79,7 @@ const DashboardNav = ({ onMenuClick }) => {
           {/* Logout */}
           <button
             onClick={Logout}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg border border-red-500 text-red-600 hover:bg-red-600 hover:text-white transition"
+            className="ml-3 flex items-center gap-2 px-4 py-2 rounded-lg border border-red-500 text-red-600 hover:bg-red-600 hover:text-white transition"
           >
             <i className="bi bi-box-arrow-right"></i>
 

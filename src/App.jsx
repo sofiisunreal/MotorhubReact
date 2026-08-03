@@ -14,6 +14,7 @@ import Staff from './components/admin/Staff'
 import Sales from './components/admin/Sales'
 import Notices from './components/admin/Notices'
 import AdminDashboard from './components/admin/AdminDashboard'
+import Reports from './components/admin/Reports'
 
 function App() {
 
@@ -58,6 +59,7 @@ function App() {
             <Route path="staff" element={<Staff />} />
             <Route path="sales" element={<Sales />} />
             <Route path="notices" element={<Notices />} />
+            <Route path='reports' element={<Reports />} />
           </Route>
 
           <Route path="/login" element={<Login />} />
