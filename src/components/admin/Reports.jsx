@@ -1,30 +1,33 @@
-import React from 'react'
+import React from "react";
+import api from "../context/api/api";
 
 const Reports = () => {
   const HandleExport = async () => {
     try {
       const response = await api.get(
-        "sales/export/",
+        "sales/exportsalescsv/",
         {
-          responseType: "blob"
+          responseType: "blob",
         }
-      )
-      const url = window.URL.createObjectURL(
-        new Blob([response.data])
-      )
-      const link = document.createElement("a")
-      link.href = url
-      link.setAttribute(
-        "download",
-        "sales_report.csv"
-      )
-      document.body.appendChild(link)
-      link.click()
-      link.remove()
+      );
+
+      const url = window.URL.createObjectURL(response.data);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "sales_report.csv";
+
+      document.body.appendChild(link);
+      link.click();
+
+      link.remove();
+      window.URL.revokeObjectURL(url);
+
     } catch (error) {
-      console.error(error)
+      console.error("Export failed:", error);
     }
-  }
+  };
+
   return (
     <div>
       <button
@@ -35,7 +38,7 @@ const Reports = () => {
         Export Sales CSV
       </button>
     </div>
-  )
-}
+  );
+};
 
-export default Reports
+export default Reports;
