@@ -58,6 +58,32 @@ const Sales = () => {
     setError("")
     setMessage("")
   }
+  const HandleExport = async () => {
+    try {
+      const response = await api.get(
+        "sales/exportsalescsv/",
+        {
+          responseType: "blob",
+        }
+      );
+
+      const url = window.URL.createObjectURL(response.data);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "sales_report.csv";
+
+      document.body.appendChild(link);
+      link.click();
+
+      link.remove();
+      window.URL.revokeObjectURL(url);
+
+    } catch (error) {
+      console.error("Export failed:", error);
+    }
+  };
+
 
   const HandleEditSubmit = async (e) => {
     e.preventDefault()
@@ -88,6 +114,15 @@ const Sales = () => {
         <h1 className='text-2xl font-bold mb-4'>Sales</h1>
         <p className='text-gray-600'>All recorded sales</p>
       </div>
+      <button
+        onClick={HandleExport}
+        className="btn-primary"
+      >
+        <i className="bi bi-download mr-2"></i>
+        Export Sales CSV
+      </button>
+
+
 
       {message && <div className="alert-success">{message}</div>}
 

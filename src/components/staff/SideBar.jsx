@@ -3,35 +3,7 @@ import { NavLink } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 const SideBar = ({ isOpen, setIsOpen }) => {
-  const { user } = useContext(AuthContext)
-  const links = [
-    {
-      name: "Dashboard",
-      icon: "bi-speedometer2",
-      path: "/staff-dashboard",
-    },
-    {
-      name: "Cars",
-      icon: "bi-car-front-fill",
-      path: "/cars",
-    },
-    {
-      name: "Suppliers",
-      icon: "bi-building",
-      path: "suppliers",
-    },
-    {
-      name: "Sales",
-      icon: "bi-cart-check",
-      path: "/sales",
-    },
-    {
-      name: "Reports",
-      icon: "bi-graph-up",
-      path: "/reports",
-    },
-  ];
-
+  const { user, Logout } = useContext(AuthContext)
   const linkClass = ({ isActive }) =>
     `flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${isActive
       ? "bg-white text-red-700 font-semibold shadow-lg"
@@ -71,20 +43,8 @@ const SideBar = ({ isOpen, setIsOpen }) => {
             </div>
 
             <div>
-              <h2 className="text-2xl font-bold">MotorHub</h2>
+              <h2 className="text-2xl text-white font-bold">MotorHub</h2>
               <p className="text-sm text-gray-200">Staff Dashboard</p>
-            </div>
-          </div>
-
-          {/* User */}
-          <div className="flex items-center gap-3 border-y border-white/20 py-5 mb-6">
-            <div className="w-12 h-12 rounded-full bg-white text-red-700 flex items-center justify-center">
-              <i className="bi bi-person-fill text-xl"></i>
-            </div>
-
-            <div>
-              <h3 className="font-semibold">{user?.first_name}</h3>
-              <p className="text-xs text-gray-300">Staff Member</p>
             </div>
           </div>
 
@@ -94,18 +54,45 @@ const SideBar = ({ isOpen, setIsOpen }) => {
           </p>
 
           <nav className="space-y-2">
-            {links.map((link) => (
-              <NavLink
-                key={link.path}
-                to={link.path}
-                end={link.path === "/staff-dashboard"}
-                className={linkClass}
-                onClick={() => setIsOpen(false)}
-              >
-                <i className={`bi ${link.icon} text-lg`}></i>
-                <span>{link.name}</span>
-              </NavLink>
-            ))}
+            <NavLink
+              to="/staff-dashboard"
+              end
+              className={linkClass}
+              onClick={() => setIsOpen(false)}
+            >
+              <i className="bi bi-speedometer2"></i>
+              <span>Dashboard</span>
+            </NavLink>
+            <NavLink
+              to="/staff-dashboard/cars"
+              className={linkClass}
+              onClick={() => setIsOpen(false)}
+            >
+              <i className="bi bi-speedometer2"></i>
+              <span>View Cars</span>
+            </NavLink>
+
+            <NavLink
+              to="/staff-dashboard/sales"
+              className={linkClass}
+              onClick={() => setIsOpen(false)}
+            >
+              <i className="bi bi-speedometer2"></i>
+              <span>Your Sales</span>
+            </NavLink>
+
+            <NavLink
+              to="/staff-dashboard/notices"
+              className={linkClass}
+              onClick={() => setIsOpen(false)}
+            >
+              <i className="bi bi-speedometer2"></i>
+              <span>Notices</span>
+            </NavLink>
+
+
+
+
           </nav>
         </div>
 
@@ -120,7 +107,7 @@ const SideBar = ({ isOpen, setIsOpen }) => {
             <span>Settings</span>
           </NavLink>
 
-          <button className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-gray-200 hover:bg-red-600 transition-all duration-300">
+          <button onClick={Logout} className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-gray-200 hover:bg-red-600 transition-all duration-300">
             <i className="bi bi-box-arrow-right"></i>
             <span>Logout</span>
           </button>

@@ -37,9 +37,6 @@ const DashboardNav = ({ onMenuClick }) => {
                 MotorHub
               </h1>
 
-              <p className="text-sm text-gray-500">
-                Your Dashboard
-              </p>
             </div>
           </div>
 

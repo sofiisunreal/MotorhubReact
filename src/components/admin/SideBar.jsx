@@ -111,23 +111,9 @@ const SideBar = ({ isOpen, setIsOpen }) => {
               <i className="bi bi-bell-fill"></i>
               <span>Notices</span>
             </NavLink>
-            <NavLink
-              to="/admin-dashboard/reports"
-              className={linkClass}
-              onClick={() => setIsOpen(false)}
-            >
-              <i className="bi bi-graph-up-arrow"></i>
-              <span>Reports</span>
-            </NavLink>
-
-
 
           </nav>
-
-
         </div>
-
-
         {/* Bottom Section */}
         <div className="border-t border-white/20 p-6 space-y-2">
 
