@@ -19,6 +19,7 @@ import SalesStaff from './components/staff/SalesStaff'
 import NoticesStaff from './components/staff/NoticesStaff'
 import StaffDashboard from './components/staff/StaffDashboard'
 import { ToastContainer } from 'react-toastify'
+import AddSale from './components/staff/AddSale'
 
 function App() {
 
@@ -48,6 +49,8 @@ function App() {
             <Route path='cars' element={<CarsStaff />} />
             <Route path='sales' element={<SalesStaff />} />
             <Route path='notices' element={<NoticesStaff />} />
+            <Route path='addsale' element={<AddSale/>}/>
+
           </Route>
 
           {/* Admin */}

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import api from '../context/api/api'
 import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 
 const CarsStaff = () => {
   const [cars, setCars] = useState([])
@@ -8,20 +9,8 @@ const CarsStaff = () => {
   const [statusFilter, setStatusFilter] = useState("all")
 
   const [loading, setLoading] = useState(false)
-  const [selectedCar, setSelectedCar] = useState(null)
-  const [showSaleForm, setShowSaleForm] = useState(false)
+  const navigate=useNavigate()
 
-
-  const HandleCreateSale = (car) => {
-    setSelectedCar(car)
-    setShowSaleForm(true)
-  }
-  const saleData = {
-    car_id: selectedCar.id,
-    customer_name,
-    customer_phone,
-    selling_price
-  }
 
   const FetchCars = async () => {
     setLoading(true)
@@ -171,7 +160,7 @@ const CarsStaff = () => {
 
                 {car.status === "available" ? (
                   <button
-                    onClick={() => HandleCreateSale(car)}
+                    onClick={() => navigate('/staff-dashboard/addsale')}
                     className="w-full mt-6 btn-primary"
                   >
                     <i className="bi bi-cart-plus mr-2"></i>
