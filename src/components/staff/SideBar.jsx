@@ -68,7 +68,7 @@ const SideBar = ({ isOpen, setIsOpen }) => {
               className={linkClass}
               onClick={() => setIsOpen(false)}
             >
-              <i className="bi bi-speedometer2"></i>
+              <i class="bi bi-car-front-fill"></i>
               <span>View Cars</span>
             </NavLink>
 
@@ -77,7 +77,7 @@ const SideBar = ({ isOpen, setIsOpen }) => {
               className={linkClass}
               onClick={() => setIsOpen(false)}
             >
-              <i className="bi bi-speedometer2"></i>
+              <i className="bi bi-wallet2"></i>
               <span>Your Sales</span>
             </NavLink>
 
@@ -86,7 +86,7 @@ const SideBar = ({ isOpen, setIsOpen }) => {
               className={linkClass}
               onClick={() => setIsOpen(false)}
             >
-              <i className="bi bi-speedometer2"></i>
+              <i className="bi bi-megaphone"></i>
               <span>Notices</span>
             </NavLink>
 

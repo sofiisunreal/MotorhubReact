@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import api from '../context/api/api'
 import { toast } from 'react-toastify'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const CarsStaff = () => {
+  const { id } = useParams()
   const [cars, setCars] = useState([])
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState("all")
 
   const [loading, setLoading] = useState(false)
-  const navigate=useNavigate()
+  const navigate = useNavigate()
 
 
   const FetchCars = async () => {
@@ -160,7 +161,7 @@ const CarsStaff = () => {
 
                 {car.status === "available" ? (
                   <button
-                    onClick={() => navigate('/staff-dashboard/addsale')}
+                    onClick={() => navigate(`/staff-dashboard/addsale/${car.id}`)}
                     className="w-full mt-6 btn-primary"
                   >
                     <i className="bi bi-cart-plus mr-2"></i>
