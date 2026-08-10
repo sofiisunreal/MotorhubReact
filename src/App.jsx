@@ -20,9 +20,10 @@ import NoticesStaff from './components/staff/NoticesStaff'
 import StaffDashboard from './components/staff/StaffDashboard'
 import { ToastContainer } from 'react-toastify'
 import AddSale from './components/staff/AddSale'
+import QuotesList from './components/admin/QuotesList'
+
 
 function App() {
-
   return (
     <Router>
 
@@ -69,6 +70,8 @@ function App() {
             <Route path="staff" element={<Staff />} />
             <Route path="sales" element={<Sales />} />
             <Route path="notices" element={<Notices />} />
+            <Route path='quotes' element={<QuotesList />} />
+
           </Route>
 
           <Route path="/login" element={<Login />} />
