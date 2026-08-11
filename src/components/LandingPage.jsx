@@ -28,16 +28,6 @@ const LandingPage = () => {
     fetchCars();
   }, []);
 
-  /*
-   * Only available cars are displayed.
-   * There is NO status filter.
-   *
-   * Search works against:
-   * - Brand
-   * - VIN number
-   * - Supplier name
-   * - Year
-   */
   const availableCars = useMemo(() => {
     return cars.filter(
       (car) => car.status?.toLowerCase() === "available"
@@ -53,12 +43,10 @@ const LandingPage = () => {
 
     return availableCars.filter((car) => {
       const brand = String(car.brand || "").toLowerCase();
-      const supplier = String(car.supplier_name || "").toLowerCase();
       const year = String(car.year || "").toLowerCase();
 
       return (
         brand.includes(term) ||
-        supplier.includes(term) ||
         year.includes(term)
       );
     });
@@ -78,8 +66,6 @@ const LandingPage = () => {
 
   return (
     <div className="min-h-screen bg-white text-slate-900">
-
-      {/* ================= NAVBAR ================= */}
       <nav className="absolute left-0 right-0 top-0 z-30">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-5 lg:px-8">
 
@@ -90,8 +76,11 @@ const LandingPage = () => {
             className="flex items-center gap-3"
           >
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-white shadow-lg shadow-blue-600/20">
-              <i className="bi bi-car-front-fill text-lg" />
-            </div>
+              <img
+                src="/motorhub.png"
+                alt="Motorhub"
+                className="h-11 w-11 rounded-xl object-cover"
+              />            </div>
 
             <div className="text-left">
               <p className="text-lg font-bold tracking-tight text-white">
@@ -145,23 +134,28 @@ const LandingPage = () => {
       {/* ================= HERO ================= */}
       <section className="relative flex min-h-[680px] items-center overflow-hidden bg-blue-950">
 
-        {/* Background image */}
         <div className="absolute inset-0">
+
           <img
             src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=2000&q=85"
             alt="Luxury vehicle"
             className="h-full w-full object-cover"
           />
 
-          {/* Blue overlay */}
-          <div className="absolute inset-0 bg-blue-950/75" />
+          {/* Dark base */}
+          <div className="absolute inset-0 bg-slate-950/65" />
 
-          {/* Blue → red gradient */}
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-950 via-blue-950/80 to-red-950/40" />
+          {/* Main blue atmosphere */}
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-950/95 via-blue-950/70 to-blue-950/25" />
 
-          {/* Subtle red accent */}
-          <div className="absolute right-0 top-0 h-full w-1/3 bg-red-600/10" />
+          {/* Red brand accent on the right */}
+          <div className="absolute inset-y-0 right-0 w-[38%] bg-gradient-to-l from-red-700/25 via-red-600/10 to-transparent" />
+
+          {/* Soft darkening around edges */}
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-slate-950/20" />
+
         </div>
+
 
         {/* Hero content */}
         <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pb-20 pt-32 lg:px-8">
@@ -289,7 +283,7 @@ const LandingPage = () => {
 
               <input
                 type="text"
-                placeholder="Search by brand, VIN, supplier, or year..."
+                placeholder="Search by brand, VIN, or year..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full rounded-xl border border-blue-100 bg-white py-3.5 pl-11 pr-12 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
@@ -374,7 +368,7 @@ const LandingPage = () => {
                 </h3>
 
                 <p className="mt-1 text-sm text-slate-500">
-                  Try searching for a different brand, VIN, supplier, or year.
+                  Try searching for a different brand, VIN, or year.
                 </p>
 
                 <button
@@ -443,13 +437,6 @@ const LandingPage = () => {
 
                     </div>
 
-                    {/* Supplier */}
-                    {car.supplier_name && (
-                      <p className="mt-3 text-xs text-slate-500">
-                        <i className="bi bi-building mr-1.5 text-blue-500" />
-                        {car.supplier_name}
-                      </p>
-                    )}
                     <div className="mt-4 flex items-center gap-4 border-t border-slate-100 pt-4 text-xs text-slate-500">
 
                       <span>
@@ -608,44 +595,13 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
-
-      {/* ================= FOOTER ================= */}
-      <footer className="border-t border-blue-100 bg-white px-5 py-8 lg:px-8">
-        <div className="mx-auto flex max-w-7xl flex-col gap-5 md:flex-row md:items-center md:justify-between">
-
-          <div className="flex items-center gap-3">
-
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-600 text-white">
-              <i className="bi bi-car-front-fill" />
-            </div>
-
-            <div>
-              <p className="text-sm font-bold text-slate-900">
-                Motorhub
-              </p>
-
-              <p className="text-xs text-slate-400">
-                Automotive
-              </p>
-            </div>
-
-          </div>
-
-          <p className="text-xs text-slate-400">
-            © {new Date().getFullYear()} Motorhub. All rights reserved.
+      <footer className="border-t border-blue-100 bg-white px-5 py-8">
+        <div className="mx-auto flex max-w-7xl justify-center">
+          <p className="text-center text-xs text-slate-400">
+            © {new Date().getFullYear()} Motorhub by Sophie Kendi. All rights reserved.
           </p>
-
-          <button
-            onClick={() => navigate("/login")}
-            className="text-sm font-semibold text-blue-600 transition hover:text-red-600"
-          >
-            Staff Login
-          </button>
-
         </div>
-      </footer>
-
-    </div>
+      </footer>    </div>
   );
 };
 

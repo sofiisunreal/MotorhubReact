@@ -75,10 +75,26 @@ const Login = () => {
         className="bg-white w-full max-w-md rounded-2xl shadow-2xl p-8"
       >
 
+        {/* Back to Home */}
+        <button
+          type="button"
+          onClick={() => navigate("/")}
+          className="mb-6 inline-flex items-center gap-2 text-sm font-semibold text-slate-500 transition hover:text-blue-700"
+        >
+          <i className="bi bi-arrow-left" />
+          Back to Home
+        </button>
+
+
+
         {/* Logo */}
         <div className="text-center mb-8">
           <div className="w-16 h-16 mx-auto rounded-full bg-blue-700 flex items-center justify-center text-white text-2xl font-bold mb-4">
-            M
+            <img
+              src="/motorhub.png"
+              alt="Motorhub"
+              className="h-11 w-11 rounded-xl object-cover"
+            />
           </div>
 
           <h1 className="text-3xl font-bold text-gray-800">

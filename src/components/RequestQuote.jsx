@@ -44,7 +44,7 @@ const RequestQuote = () => {
     e.preventDefault();
     setSubmitting(true);
     try {
-      await api.post("quotes/", {
+      await api.post("quotes/request/", {
         car: id,
         customer_name: form.customer_name,
         customer_phone: form.customer_phone,
@@ -193,7 +193,7 @@ const RequestQuote = () => {
                     information.
                   </p>
                 </div>
-             </div>
+              </div>
             </div>
           </div>
           {/* Form */}
