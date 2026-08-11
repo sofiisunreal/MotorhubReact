@@ -111,12 +111,12 @@ const SideBar = ({ isOpen, setIsOpen }) => {
               <i className="bi bi-bell-fill"></i>
               <span>Notices</span>
             </NavLink>
-                        <NavLink
+            <NavLink
               to="/admin-dashboard/quotes"
               className={linkClass}
               onClick={() => setIsOpen(false)}
             >
-              <i className="bi bi-bell-fill"></i>
+              <i class="bi bi-envelope-paper"></i>
               <span>Quotes</span>
             </NavLink>
 

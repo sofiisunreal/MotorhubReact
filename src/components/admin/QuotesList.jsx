@@ -22,6 +22,7 @@ const QuotesList = () => {
         try {
             const { data } = await api.get("quotes/");
             setQuotes(data);
+            console.log(data)
         } catch (error) {
             console.error(error);
             toast.error("Failed to fetch quotes");

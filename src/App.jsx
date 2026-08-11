@@ -21,6 +21,7 @@ import StaffDashboard from './components/staff/StaffDashboard'
 import { ToastContainer } from 'react-toastify'
 import AddSale from './components/staff/AddSale'
 import QuotesList from './components/admin/QuotesList'
+import RequestQuote from './components/RequestQuote'
 
 
 function App() {
@@ -85,6 +86,7 @@ function App() {
             path="/"
             element={<LandingPage />}
           />
+          <Route path='/request-quote/:id' element={<RequestQuote/>}/>
 
           <Route
             path="*"
