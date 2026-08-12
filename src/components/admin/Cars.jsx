@@ -138,19 +138,33 @@ const Cars = () => {
     )
   }
 
-  const filteredCars = cars.filter((car) => {
-    const term = searchTerm.trim().toLowerCase()
-    const matchesSearch =
-      !term ||
-      car.brand?.toLowerCase().includes(term) ||
-      car.vin_number?.toLowerCase().includes(term) ||
-      car.supplier_name?.toLowerCase().includes(term)
+  const filteredCars = cars
+    .filter((car) => {
+      const term = searchTerm.trim().toLowerCase()
 
-    const matchesStatus = statusFilter === "all" || car.status === statusFilter
+      const matchesSearch =
+        !term ||
+        car.brand?.toLowerCase().includes(term) ||
+        car.vin_number?.toLowerCase().includes(term) ||
+        car.supplier_name?.toLowerCase().includes(term)
 
-    return matchesSearch && matchesStatus
-  })
+      const matchesStatus =
+        statusFilter === "all" || car.status === statusFilter
 
+      return matchesSearch && matchesStatus
+    })
+    .sort((a, b) => {
+      const statusOrder = {
+        available: 1,
+        reserved: 2,
+        sold: 3,
+      }
+
+      return (
+        (statusOrder[a.status] || 99) -
+        (statusOrder[b.status] || 99)
+      )
+    })
   if (loading) {
     return <p className='p-6 text-gray-500'>Loading Cars...</p>
   }

@@ -39,9 +39,6 @@ const SalesStaff = () => {
     FetchSales()
   }, [])
 
-  // =========================
-  // OPEN PAYMENT MODAL
-  // =========================
 
   const OpenPaymentModal = (sale) => {
     setSelectedSale(sale)
@@ -56,21 +53,12 @@ const SalesStaff = () => {
     setShowPaymentModal(true)
   }
 
-  // =========================
-  // CLOSE PAYMENT MODAL
-  // =========================
-
   const ClosePaymentModal = () => {
     if (paymentLoading) return
 
     setShowPaymentModal(false)
     setSelectedSale(null)
   }
-
-  // =========================
-  // HANDLE PAYMENT CHANGE
-  // =========================
-
   const HandlePaymentChange = (e) => {
     const { name, value } = e.target
 
@@ -206,11 +194,10 @@ const SalesStaff = () => {
                 </div>
 
                 <span
-                  className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                    sale.payment_status === "paid"
+                  className={`px-3 py-1 rounded-full text-xs font-semibold ${sale.payment_status === "paid"
                       ? "bg-green-100 text-green-700"
                       : "bg-orange-100 text-orange-700"
-                  }`}
+                    }`}
                 >
                   {sale.payment_status === "paid"
                     ? "Paid"
@@ -390,12 +377,6 @@ const SalesStaff = () => {
         </div>
 
       )}
-
-
-      {/* ========================= */}
-      {/* PAYMENT MODAL */}
-      {/* ========================= */}
-
       {showPaymentModal && selectedSale && (
 
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">

@@ -3,9 +3,6 @@ import axios from 'axios';
 
 const api = axios.create({
   baseURL: 'https://sophiehiggs.alwaysdata.net/api/',
-  headers: {
-    "Content-Type": "application/json",
-  }
 })
 
 api.interceptors.request.use(
