@@ -88,31 +88,34 @@ const Login = () => {
 
 
         {/* Logo */}
+        {/* Logo */}
         <div className="text-center mb-8">
-          <div className="w-16 h-16 mx-auto rounded-full bg-blue-700 flex items-center justify-center text-white text-2xl font-bold mb-4">
+          <div className="mx-auto mb-4 h-20 w-20 overflow-hidden rounded-full">
             <img
               src="/motorhub.png"
               alt="Motorhub"
-              className="h-11 w-11 rounded-xl object-cover"
+              className="h-full w-full object-cover"
             />
           </div>
 
-          <h1 className="text-3xl font-bold text-gray-800">
-            MotorHub
+          <h1 className="text-2xl font-bold text-slate-900">
+            Motorhub
           </h1>
 
-          <p className="text-gray-500 mt-2">
-            Car Showroom Management System
+          <p className="mt-1 text-sm text-slate-500">
+            Find your next drive
           </p>
         </div>
 
 
         {/* Error */}
-        {error && (
-          <div className="bg-red-100 text-red-600 p-3 rounded-lg mb-4 text-sm">
-            {error}
-          </div>
-        )}
+        {
+          error && (
+            <div className="bg-red-100 text-red-600 p-3 rounded-lg mb-4 text-sm">
+              {error}
+            </div>
+          )
+        }
 
 
         {/* Username */}
@@ -158,9 +161,9 @@ const Login = () => {
           {loading ? "Logging in..." : "Login"}
         </button>
 
-      </form>
+      </form >
 
-    </div>
+    </div >
   );
 };
 

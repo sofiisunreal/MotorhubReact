@@ -555,11 +555,76 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* ================= CTA ================= */}
+      {/* ================= CONTACT ================= */}
       <section
         id="contact"
-        className="scroll-mt-10 px-5 py-20 lg:px-8"
+        className="scroll-mt-10 bg-slate-50 px-5 py-20 lg:px-8"
       >
+        <div className="mx-auto max-w-7xl">
+          <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
+
+            {/* Contact intro */}
+            <div>
+              <p className="mb-2 text-sm font-bold uppercase tracking-widest text-blue-600">
+                Contact us
+              </p>
+
+              <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+                Let’s help you find your next car.
+              </h2>
+
+              <p className="mt-4 max-w-xl text-sm leading-7 text-slate-500">
+                Have a question about one of our vehicles or need more information?
+                Get in touch with the Motorhub team and we’ll be happy to assist you.
+              </p>
+            </div>
+
+            {/* Contact details */}
+            <div className="grid gap-4 sm:grid-cols-2">
+
+              {/* Email */}
+              <a
+                href="mailto:sophiekendi17@gmail.com"
+                className="group rounded-2xl border border-blue-100 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-blue-200 hover:shadow-lg"
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                  <i className="bi bi-envelope text-xl" />
+                </div>
+
+                <h3 className="mt-5 font-bold text-slate-900">
+                  Email us
+                </h3>
+
+                <p className="mt-2 break-all text-sm text-slate-500 group-hover:text-blue-600">
+                  sophiekendi17@gmail.com
+                </p>
+              </a>
+
+              {/* Phone */}
+              <a
+                href="tel:+254781683266"
+                className="group rounded-2xl border border-red-100 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-red-200 hover:shadow-lg"
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-50 text-red-600">
+                  <i className="bi bi-telephone text-xl" />
+                </div>
+
+                <h3 className="mt-5 font-bold text-slate-900">
+                  Call us
+                </h3>
+
+                <p className="mt-2 text-sm text-slate-500 group-hover:text-red-600">
+                  +254 781 683 266
+                </p>
+              </a>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= CTA ================= */}
+      <section className="px-5 py-20 lg:px-8">
         <div className="mx-auto max-w-7xl">
 
           <div className="relative overflow-hidden rounded-3xl bg-blue-950 px-6 py-14 text-center sm:px-12">
@@ -594,7 +659,7 @@ const LandingPage = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section>      
       <footer className="border-t border-blue-100 bg-white px-5 py-8">
         <div className="mx-auto flex max-w-7xl justify-center">
           <p className="text-center text-xs text-slate-400">

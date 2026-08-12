@@ -28,10 +28,7 @@ const DashboardNav = ({ onMenuClick }) => {
 
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-red-600 to-blue-700 text-white flex items-center justify-center shadow-md">
-              <i className="bi bi-car-front-fill text-lg"></i>
-            </div>
-
+           
             <div>
               <h1 className="text-xl font-bold text-gray-800">
                 MotorHub

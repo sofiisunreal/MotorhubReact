@@ -18,6 +18,7 @@ const QuoteStatusModal = ({ quote, onClose, onUpdated }) => {
       onUpdated(data);
       toast.success("Quote status updated");
       onClose();
+      window.location.reload();
     } catch (error) {
       console.error(error);
       toast.error("Failed to update status");

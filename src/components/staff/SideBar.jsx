@@ -38,8 +38,12 @@ const SideBar = ({ isOpen, setIsOpen }) => {
         <div className="p-6">
           {/* Logo */}
           <div className="flex items-center gap-3 mb-8">
-            <div className="w-12 h-12 rounded-xl bg-white text-red-700 flex items-center justify-center shadow-lg">
-              <i className="bi bi-car-front-fill text-2xl"></i>
+            <div className="h-10 w-10 shrink-0 overflow-hidden rounded-full">
+              <img
+                src="/motorhub.png"
+                alt="Motorhub"
+                className="h-full w-full object-cover"
+              />
             </div>
 
             <div>

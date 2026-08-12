@@ -33,27 +33,33 @@ const SideBar = ({ isOpen, setIsOpen }) => {
       >
 
         {/* Top Section */}
-        <div className="p-6 flex-1 overflow-y-auto">
+        <div className="p-6  mb-4 flex-1 overflow-y-auto">
 
           {/* Logo */}
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-12 h-12 rounded-xl bg-white text-red-700 flex items-center justify-center shadow-lg">
-              <i className="bi bi-car-front-fill text-2xl"></i>
+          <div className="flex items-center gap-3 px-4">
+            <div className="h-10 w-10 shrink-0 overflow-hidden rounded-full">
+              <img
+                src="/motorhub.png"
+                alt="Motorhub"
+                className="h-full w-full object-cover"
+              />
             </div>
 
             <div>
-              <h2 className="text-2xl text-white font-bold">
-                MotorHub
-              </h2>
-              <p className="text-xs text-gray-200">
-                Admin Dashboard
+              <p className="font-bold text-white text-slate-900">
+                Motorhub
               </p>
+
+              <p className="text-[10px]  mb-4 uppercase tracking-wider text-slate-400">
+                Automotive
+              </p>
+
+
             </div>
           </div>
 
-
           {/* Navigation */}
-          <p className="text-xs uppercase tracking-widest text-gray-300 mb-3">
+          <p className="text-xs uppercase tracking-widest text-gray-300 mt-4 mb-3">
             Main Menu
           </p>
 
@@ -146,7 +152,7 @@ const SideBar = ({ isOpen, setIsOpen }) => {
         </div>
 
 
-      </aside>
+      </aside >
 
     </>
   );
