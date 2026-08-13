@@ -36,8 +36,8 @@ const SideBar = ({ isOpen, setIsOpen }) => {
         <div className="p-6  mb-4 flex-1 overflow-y-auto">
 
           {/* Logo */}
-          <div className="flex items-center gap-3 px-4">
-            <div className="h-10 w-10 shrink-0 overflow-hidden rounded-full">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="h-12 w-12 shrink-0 overflow-hidden rounded-full">
               <img
                 src="/motorhub.png"
                 alt="Motorhub"
@@ -46,15 +46,8 @@ const SideBar = ({ isOpen, setIsOpen }) => {
             </div>
 
             <div>
-              <p className="font-bold text-white text-slate-900">
-                Motorhub
-              </p>
-
-              <p className="text-[10px]  mb-4 uppercase tracking-wider text-slate-400">
-                Automotive
-              </p>
-
-
+              <h2 className="text-2xl text-white font-bold">MotorHub</h2>
+              <p className="text-sm text-gray-200">Admin Dashboard</p>
             </div>
           </div>
 
