@@ -15,25 +15,26 @@ const formatDate = (iso) => {
 }
 
 const StatCard = ({ icon, label, value, accent }) => (
-  <div className="bg-white rounded-xl shadow p-5 flex items-center gap-4 hover:shadow-md transition-shadow">
+  <div className="bg-white rounded-xl shadow p-4 sm:p-5 flex items-center gap-3 sm:gap-4 min-w-0 hover:shadow-md transition-shadow">
+
     <div
-      className={`w-12 h-12 rounded-full flex items-center justify-center text-xl shrink-0 ${accent}`}
+      className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-lg sm:text-xl shrink-0 ${accent}`}
     >
       <i className={`bi ${icon}`}></i>
     </div>
 
-    <div>
-      <p className="text-2xl font-bold leading-tight">
+    <div className="min-w-0">
+      <p className="text-xl sm:text-2xl font-bold leading-tight break-words">
         {value}
       </p>
 
-      <p className="text-sm text-gray-500">
+      <p className="text-xs sm:text-sm text-gray-500">
         {label}
       </p>
     </div>
+
   </div>
 )
-
 
 const AdminDashboard = () => {
 
@@ -161,8 +162,7 @@ const AdminDashboard = () => {
 
   return (
 
-    <div className="p-4 md:p-4 space-y-8">
-
+    <div className="w-full min-w-0 p-3 sm:p-4 md:p-6 space-y-6 sm:space-y-8 overflow-x-hidden">
       {/* HEADER */}
 
       <div>
@@ -180,50 +180,40 @@ const AdminDashboard = () => {
 
       {/* HERO */}
 
-      <div className="relative overflow-hidden rounded-2xl shadow-lg p-8 text-white bg-gradient-to-br from-blue-600 via-blue-700 to-red-600">
+      <div className="relative overflow-hidden rounded-2xl shadow-lg p-5 sm:p-6 md:p-8 text-white bg-gradient-to-br from-blue-600 via-blue-700 to-red-600">
 
-        <i className="bi bi-car-front-fill absolute -right-6 -bottom-10 text-[180px] text-white/10 pointer-events-none"></i>
+        <i className="bi bi-car-front-fill absolute -right-8 -bottom-8 text-[100px] sm:text-[140px] md:text-[180px] text-white/10 pointer-events-none"></i>
 
-        <div className="relative z-10 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+        <div className="relative z-10">
 
-          <div>
+          <p className="uppercase tracking-wide text-blue-100 text-xs sm:text-sm font-semibold mb-2">
+            Total Sales Value
+          </p>
 
-            <p className="uppercase tracking-wide text-blue-100 text-sm font-semibold mb-2">
-              Total Sales Value
-            </p>
+          <p className="text-3xl sm:text-4xl md:text-5xl font-black break-words">
+            {formatKsh(stats.total_sales_value)}
+          </p>
 
-            <p className="text-4xl md:text-5xl font-black">
-              {formatKsh(stats.total_sales_value)}
-            </p>
+          <div className="grid grid-cols-2 gap-4 sm:gap-8 mt-6">
 
-          </div>
-
-
-          <div className="flex gap-8">
-
-            <div>
-
-              <p className="text-blue-100 text-sm">
+            <div className="min-w-0">
+              <p className="text-blue-100 text-xs sm:text-sm">
                 Money Collected
               </p>
 
-              <p className="text-2xl font-bold">
+              <p className="text-lg sm:text-2xl font-bold break-words">
                 {formatKsh(stats.total_collected)}
               </p>
-
             </div>
 
-
-            <div>
-
-              <p className="text-blue-100 text-sm">
+            <div className="min-w-0">
+              <p className="text-blue-100 text-xs sm:text-sm">
                 Outstanding
               </p>
 
-              <p className="text-2xl font-bold">
+              <p className="text-lg sm:text-2xl font-bold break-words">
                 {formatKsh(stats.total_outstanding)}
               </p>
-
             </div>
 
           </div>
@@ -241,8 +231,7 @@ const AdminDashboard = () => {
           Overview
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
           <StatCard
             icon="bi-people-fill"
             label="Total Staff"
@@ -276,9 +265,7 @@ const AdminDashboard = () => {
         <p className="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
           Inventory Status
         </p>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
           <StatCard
             icon="bi-check-circle-fill"
             label="Available"
@@ -313,8 +300,7 @@ const AdminDashboard = () => {
           Payment Overview
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
           <StatCard
             icon="bi-cash-stack"
             label="Money Collected"
@@ -343,8 +329,7 @@ const AdminDashboard = () => {
 
       {/* PAYMENT STATUS */}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
         <div className="bg-white rounded-xl shadow p-5">
 
           <div className="flex items-center justify-between">
@@ -409,8 +394,7 @@ const AdminDashboard = () => {
           Performance
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
           {periods.map((period) => (
 
             <div
@@ -473,8 +457,8 @@ const AdminDashboard = () => {
 
                 <span
                   className={`font-bold ${Number(period.profit) >= 0
-                      ? "text-green-600"
-                      : "text-red-600"
+                    ? "text-green-600"
+                    : "text-red-600"
                     }`}
                 >
                   {formatKsh(period.profit)}
@@ -556,8 +540,8 @@ const AdminDashboard = () => {
 
                       <p
                         className={`text-xs ${Number(staff.profit) >= 0
-                            ? "text-green-600"
-                            : "text-red-600"
+                          ? "text-green-600"
+                          : "text-red-600"
                           }`}
                       >
                         {formatKsh(staff.profit)} profit
@@ -699,8 +683,8 @@ const AdminDashboard = () => {
 
                       <span
                         className={`px-3 py-1 rounded-full text-xs font-semibold ${sale.payment_status === "paid"
-                            ? "bg-green-100 text-green-700"
-                            : "bg-orange-100 text-orange-700"
+                          ? "bg-green-100 text-green-700"
+                          : "bg-orange-100 text-orange-700"
                           }`}
                       >
                         {sale.payment_status}
