@@ -1,21 +1,25 @@
-import React, { useState, useEffect } from 'react'
-import api from '../context/api/api'
+import React, { useState, useEffect } from "react";
+import api from "../context/api/api";
 
 const formatKsh = (amount) =>
-  `Ksh ${Number(amount || 0).toLocaleString()}`
+  `Ksh ${Number(amount || 0).toLocaleString()}`;
 
 const formatDate = (iso) => {
-  if (!iso) return "—"
+  if (!iso) return "—";
 
-  return new Date(iso).toLocaleDateString('en-US', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric'
-  })
-}
+  return new Date(iso).toLocaleDateString("en-US", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+};
+
+/* =========================================================
+   STAT CARD
+========================================================= */
 
 const StatCard = ({ icon, label, value, accent }) => (
-  <div className="bg-white rounded-xl shadow p-4 sm:p-5 flex items-center gap-3 sm:gap-4 min-w-0 hover:shadow-md transition-shadow">
+  <div className="w-full min-w-0 bg-white rounded-xl shadow p-4 sm:p-5 flex items-center gap-3 sm:gap-4 hover:shadow-md transition-shadow overflow-hidden">
 
     <div
       className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-lg sm:text-xl shrink-0 ${accent}`}
@@ -23,9 +27,9 @@ const StatCard = ({ icon, label, value, accent }) => (
       <i className={`bi ${icon}`}></i>
     </div>
 
-    <div className="min-w-0 flex-1">
+    <div className="min-w-0 flex-1 overflow-hidden">
 
-      <p className="text-xl sm:text-2xl font-bold leading-tight break-words">
+      <p className="text-lg sm:text-2xl font-bold leading-tight break-words">
         {value}
       </p>
 
@@ -36,147 +40,179 @@ const StatCard = ({ icon, label, value, accent }) => (
     </div>
 
   </div>
-)
+);
+
+/* =========================================================
+   ADMIN DASHBOARD
+========================================================= */
 
 const AdminDashboard = () => {
-
-  const [stats, setStats] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState("")
+  const [stats, setStats] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   const FetchDashboard = async () => {
-
-    setLoading(true)
-    setError("")
+    setLoading(true);
+    setError("");
 
     try {
-
       const { data } = await api.get(
         "sales/admindashboard/"
-      )
+      );
 
-      setStats(data)
-
+      setStats(data);
     } catch (error) {
+      console.log(error);
 
-      console.log(error)
-
-      const resData = error.response?.data
+      const resData = error.response?.data;
 
       setError(
         resData
           ? JSON.stringify(resData)
           : "Failed to load dashboard"
-      )
-
+      );
     } finally {
-
-      setLoading(false)
-
+      setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
-    FetchDashboard()
-  }, [])
+    FetchDashboard();
+  }, []);
+
+  /* =========================================================
+     LOADING
+  ========================================================= */
 
   if (loading) {
     return (
-      <div className="w-full p-4 sm:p-6">
+      <div className="w-full min-w-0 p-4 sm:p-6">
         <p className="text-gray-500">
           Loading dashboard...
         </p>
       </div>
-    )
+    );
   }
+
+  /* =========================================================
+     ERROR
+  ========================================================= */
 
   if (error) {
     return (
-      <div className="w-full p-4 sm:p-6">
-        <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl p-4 break-words">
+      <div className="w-full min-w-0 p-4 sm:p-6">
+        <div className="w-full bg-red-50 border border-red-200 text-red-700 rounded-xl p-4 break-words overflow-hidden">
           {error}
         </div>
       </div>
-    )
+    );
   }
 
-  if (!stats) return null
+  if (!stats) return null;
+
+  /* =========================================================
+     PERIODS
+  ========================================================= */
 
   const periods = [
-
     {
       label: "Today",
       cars: stats.cars_sold_today,
       salesValue: stats.today_sales_value,
       collected: stats.today_collected,
-      profit: stats.today_profit
+      profit: stats.today_profit,
     },
-
     {
       label: "This Month",
       cars: stats.cars_sold_this_month,
       salesValue: stats.monthly_sales_value,
       collected: stats.monthly_collected,
-      profit: stats.monthly_profit
+      profit: stats.monthly_profit,
     },
-
     {
       label: "All-Time",
       cars: stats.sold_cars,
       salesValue: stats.total_sales_value,
       collected: stats.total_collected,
-      profit: stats.total_profit
-    }
+      profit: stats.total_profit,
+    },
+  ];
 
-  ]
+  /* =========================================================
+     STAFF RANKING
+  ========================================================= */
 
   const rankedStaff = [
-    ...(stats.staff_performance || [])
+    ...(stats.staff_performance || []),
   ].sort(
     (a, b) =>
       Number(b.sales_value || 0) -
-      Number(a.sales_value || 0) ||
+        Number(a.sales_value || 0) ||
       Number(b.cars_sold || 0) -
-      Number(a.cars_sold || 0)
-  )
+        Number(a.cars_sold || 0)
+  );
 
   const maxRevenue = Math.max(
     1,
-    ...rankedStaff.map(
-      staff => Number(staff.sales_value || 0)
+    ...rankedStaff.map((staff) =>
+      Number(staff.sales_value || 0)
     )
-  )
+  );
 
   const rankStyles = [
     "bg-yellow-100 text-yellow-700",
     "bg-gray-100 text-gray-600",
-    "bg-orange-100 text-orange-700"
-  ]
+    "bg-orange-100 text-orange-700",
+  ];
 
   return (
+    /*
+      IMPORTANT:
+      min-w-0 allows this component to shrink inside
+      a sidebar/main-content layout.
 
-    <div className="w-full min-w-0 max-w-full px-3 py-4 sm:px-4 md:px-6 space-y-6 sm:space-y-8 overflow-x-hidden">
+      overflow-x-hidden prevents children from making
+      the entire dashboard/page horizontally scroll.
+    */
 
-      {/* ================= HEADER ================= */}
+    <div className="w-full max-w-full min-w-0 overflow-x-hidden px-3 py-4 sm:px-4 md:px-6 lg:px-8 space-y-6 sm:space-y-8">
 
-      <div className="flex flex-col gap-1">
+      {/* =====================================================
+          HEADER
+      ===================================================== */}
 
-        <h1 className="text-xl sm:text-2xl font-bold">
+      <section className="w-full min-w-0">
+
+        <h1 className="text-xl sm:text-2xl font-bold mb-1">
           Dashboard
         </h1>
 
-        <p className="text-sm sm:text-base text-gray-600">
+        <p className="text-sm sm:text-base text-gray-600 break-words">
           Here's how the dealership is performing
         </p>
 
-      </div>
+      </section>
 
 
-      {/* ================= HERO ================= */}
+      {/* =====================================================
+          HERO
+      ===================================================== */}
 
-      <div className="relative overflow-hidden rounded-2xl shadow-lg p-5 sm:p-6 md:p-8 text-white bg-gradient-to-br from-blue-600 via-blue-700 to-red-600">
+      <section className="relative w-full min-w-0 overflow-hidden rounded-2xl shadow-lg p-5 sm:p-6 md:p-8 text-white bg-gradient-to-br from-blue-600 via-blue-700 to-red-600">
 
-        <i className="bi bi-car-front-fill absolute -right-10 -bottom-10 text-[100px] sm:text-[140px] md:text-[180px] text-white/10 pointer-events-none"></i>
+        <i
+          className="
+            bi bi-car-front-fill
+            absolute
+            -right-8
+            -bottom-8
+            text-[90px]
+            sm:text-[130px]
+            md:text-[170px]
+            text-white/10
+            pointer-events-none
+          "
+        ></i>
 
         <div className="relative z-10 min-w-0">
 
@@ -184,11 +220,14 @@ const AdminDashboard = () => {
             Total Sales Value
           </p>
 
-          <p className="text-2xl sm:text-4xl md:text-5xl font-black break-words leading-tight">
+          <p className="text-2xl sm:text-4xl md:text-5xl font-black leading-tight break-words">
             {formatKsh(stats.total_sales_value)}
           </p>
 
-          <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 gap-4 sm:gap-8 mt-6">
+
+          {/* Hero stats */}
+
+          <div className="grid grid-cols-1 min-[400px]:grid-cols-2 gap-4 sm:gap-8 mt-6">
 
             <div className="min-w-0">
 
@@ -201,6 +240,7 @@ const AdminDashboard = () => {
               </p>
 
             </div>
+
 
             <div className="min-w-0">
 
@@ -218,18 +258,20 @@ const AdminDashboard = () => {
 
         </div>
 
-      </div>
+      </section>
 
 
-      {/* ================= OVERVIEW ================= */}
+      {/* =====================================================
+          OVERVIEW
+      ===================================================== */}
 
-      <section>
+      <section className="w-full min-w-0">
 
         <p className="text-xs sm:text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
           Overview
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="w-full min-w-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 
           <StatCard
             icon="bi-people-fill"
@@ -257,15 +299,17 @@ const AdminDashboard = () => {
       </section>
 
 
-      {/* ================= INVENTORY ================= */}
+      {/* =====================================================
+          INVENTORY
+      ===================================================== */}
 
-      <section>
+      <section className="w-full min-w-0">
 
         <p className="text-xs sm:text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
           Inventory Status
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="w-full min-w-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 
           <StatCard
             icon="bi-check-circle-fill"
@@ -293,15 +337,17 @@ const AdminDashboard = () => {
       </section>
 
 
-      {/* ================= PAYMENT OVERVIEW ================= */}
+      {/* =====================================================
+          PAYMENT OVERVIEW
+      ===================================================== */}
 
-      <section>
+      <section className="w-full min-w-0">
 
         <p className="text-xs sm:text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
           Payment Overview
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="w-full min-w-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 
           <StatCard
             icon="bi-cash-stack"
@@ -329,17 +375,21 @@ const AdminDashboard = () => {
       </section>
 
 
-      {/* ================= PAYMENT STATUS ================= */}
+      {/* =====================================================
+          PAYMENT STATUS
+      ===================================================== */}
 
-      <section>
+      <section className="w-full min-w-0">
 
         <p className="text-xs sm:text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
           Payment Status
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="w-full min-w-0 grid grid-cols-1 sm:grid-cols-2 gap-4">
 
-          <div className="bg-white rounded-xl shadow p-4 sm:p-5">
+          {/* Paid */}
+
+          <div className="w-full min-w-0 bg-white rounded-xl shadow p-4 sm:p-5">
 
             <div className="flex items-center justify-between gap-4">
 
@@ -366,7 +416,9 @@ const AdminDashboard = () => {
           </div>
 
 
-          <div className="bg-white rounded-xl shadow p-4 sm:p-5">
+          {/* Partial */}
+
+          <div className="w-full min-w-0 bg-white rounded-xl shadow p-4 sm:p-5">
 
             <div className="flex items-center justify-between gap-4">
 
@@ -397,21 +449,23 @@ const AdminDashboard = () => {
       </section>
 
 
-      {/* ================= PERFORMANCE ================= */}
+      {/* =====================================================
+          PERFORMANCE
+      ===================================================== */}
 
-      <section>
+      <section className="w-full min-w-0">
 
         <p className="text-xs sm:text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
           Performance
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="w-full min-w-0 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
 
           {periods.map((period) => (
 
             <div
               key={period.label}
-              className="bg-white rounded-xl shadow p-4 sm:p-5 min-w-0"
+              className="w-full min-w-0 bg-white rounded-xl shadow p-4 sm:p-5 overflow-hidden"
             >
 
               <div className="flex items-center justify-between gap-3 mb-3">
@@ -433,40 +487,47 @@ const AdminDashboard = () => {
                 </p>
               )}
 
-              <div className="flex justify-between items-center gap-3 py-2 border-t">
+
+              {/* Sales */}
+
+              <div className="flex flex-col min-[400px]:flex-row min-[400px]:justify-between min-[400px]:items-center gap-1 py-2 border-t">
 
                 <span className="text-gray-500 text-xs sm:text-sm">
                   Sales Value
                 </span>
 
-                <span className="font-bold text-blue-600 text-sm sm:text-base text-right break-words">
+                <span className="font-bold text-blue-600 text-sm sm:text-base break-words min-w-0">
                   {formatKsh(period.salesValue)}
                 </span>
 
               </div>
 
 
-              <div className="flex justify-between items-center gap-3 py-2 border-t">
+              {/* Collected */}
+
+              <div className="flex flex-col min-[400px]:flex-row min-[400px]:justify-between min-[400px]:items-center gap-1 py-2 border-t">
 
                 <span className="text-gray-500 text-xs sm:text-sm">
                   Collected
                 </span>
 
-                <span className="font-bold text-green-600 text-sm sm:text-base text-right break-words">
+                <span className="font-bold text-green-600 text-sm sm:text-base break-words min-w-0">
                   {formatKsh(period.collected)}
                 </span>
 
               </div>
 
 
-              <div className="flex justify-between items-center gap-3 py-2 border-t">
+              {/* Profit */}
+
+              <div className="flex flex-col min-[400px]:flex-row min-[400px]:justify-between min-[400px]:items-center gap-1 py-2 border-t">
 
                 <span className="text-gray-500 text-xs sm:text-sm">
                   Profit
                 </span>
 
                 <span
-                  className={`font-bold text-sm sm:text-base text-right break-words ${
+                  className={`font-bold text-sm sm:text-base break-words min-w-0 ${
                     Number(period.profit) >= 0
                       ? "text-green-600"
                       : "text-red-600"
@@ -486,9 +547,11 @@ const AdminDashboard = () => {
       </section>
 
 
-      {/* ================= STAFF PERFORMANCE ================= */}
+      {/* =====================================================
+          STAFF PERFORMANCE
+      ===================================================== */}
 
-      <section className="bg-white rounded-xl shadow p-4 sm:p-5 min-w-0">
+      <section className="w-full min-w-0 bg-white rounded-xl shadow p-4 sm:p-5 overflow-hidden">
 
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-5">
 
@@ -511,28 +574,28 @@ const AdminDashboard = () => {
 
         ) : (
 
-          <div className="space-y-5">
+          <div className="w-full min-w-0 space-y-5">
 
             {rankedStaff.map((staff, index) => {
 
               const revenue = Number(
                 staff.sales_value || 0
-              )
+              );
 
               const pct = Math.round(
                 (revenue / maxRevenue) * 100
-              )
+              );
 
               return (
 
                 <div
                   key={staff.username}
-                  className="min-w-0"
+                  className="w-full min-w-0"
                 >
 
-                  {/* Staff information */}
+                  <div className="flex flex-col min-[450px]:flex-row min-[450px]:items-center min-[450px]:justify-between gap-2 mb-2">
 
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
+                    {/* Staff */}
 
                     <div className="flex items-center gap-2 sm:gap-3 min-w-0">
 
@@ -561,14 +624,16 @@ const AdminDashboard = () => {
                     </div>
 
 
-                    <div className="text-left sm:text-right min-w-0">
+                    {/* Revenue */}
 
-                      <p className="font-semibold text-gray-800 break-words">
+                    <div className="min-w-0">
+
+                      <p className="font-semibold text-gray-800 break-words text-left min-[450px]:text-right">
                         {formatKsh(staff.sales_value)}
                       </p>
 
                       <p
-                        className={`text-xs ${
+                        className={`text-xs text-left min-[450px]:text-right ${
                           Number(staff.profit) >= 0
                             ? "text-green-600"
                             : "text-red-600"
@@ -589,7 +654,7 @@ const AdminDashboard = () => {
                     <div
                       className="h-full bg-blue-500 rounded-full transition-all duration-500"
                       style={{
-                        width: `${pct}%`
+                        width: `${pct}%`,
                       }}
                     />
 
@@ -597,8 +662,7 @@ const AdminDashboard = () => {
 
                 </div>
 
-              )
-
+              );
             })}
 
           </div>
@@ -608,9 +672,11 @@ const AdminDashboard = () => {
       </section>
 
 
-      {/* ================= RECENT SALES ================= */}
+      {/* =====================================================
+          RECENT SALES
+      ===================================================== */}
 
-      <section className="bg-white rounded-xl shadow overflow-hidden min-w-0">
+      <section className="w-full min-w-0 bg-white rounded-xl shadow overflow-hidden">
 
         <div className="p-4 sm:p-5">
 
@@ -634,13 +700,17 @@ const AdminDashboard = () => {
         ) : (
 
           /*
-           * On mobile the table scrolls horizontally instead of
-           * breaking the entire page.
-           */
+            VERY IMPORTANT:
 
-          <div className="w-full overflow-x-auto">
+            The table itself is allowed to be wide,
+            BUT only this div scrolls horizontally.
 
-            <table className="w-full min-w-[900px] text-left">
+            The dashboard/page will NOT scroll horizontally.
+          */
+
+          <div className="w-full max-w-full overflow-x-auto overscroll-x-contain">
+
+            <table className="w-full min-w-[850px] text-left border-collapse">
 
               <thead className="bg-gray-50 text-gray-600 text-xs uppercase tracking-wide">
 
@@ -757,7 +827,7 @@ const AdminDashboard = () => {
       </section>
 
     </div>
-  )
-}
+  );
+};
 
-export default AdminDashboard
+export default AdminDashboard;
