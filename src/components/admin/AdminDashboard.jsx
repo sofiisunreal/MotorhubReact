@@ -23,14 +23,16 @@ const StatCard = ({ icon, label, value, accent }) => (
       <i className={`bi ${icon}`}></i>
     </div>
 
-    <div className="min-w-0">
+    <div className="min-w-0 flex-1">
+
       <p className="text-xl sm:text-2xl font-bold leading-tight break-words">
         {value}
       </p>
 
-      <p className="text-xs sm:text-sm text-gray-500">
+      <p className="text-xs sm:text-sm text-gray-500 truncate">
         {label}
       </p>
+
     </div>
 
   </div>
@@ -55,8 +57,6 @@ const AdminDashboard = () => {
 
       setStats(data)
 
-      console.log("Admin dashboard:", data)
-
     } catch (error) {
 
       console.log(error)
@@ -76,34 +76,31 @@ const AdminDashboard = () => {
     }
   }
 
-
   useEffect(() => {
     FetchDashboard()
   }, [])
 
-
   if (loading) {
     return (
-      <p className="p-6 text-gray-500">
-        Loading dashboard...
-      </p>
+      <div className="w-full p-4 sm:p-6">
+        <p className="text-gray-500">
+          Loading dashboard...
+        </p>
+      </div>
     )
   }
 
-
   if (error) {
     return (
-      <div className="p-6">
-        <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl p-4">
+      <div className="w-full p-4 sm:p-6">
+        <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl p-4 break-words">
           {error}
         </div>
       </div>
     )
   }
 
-
   if (!stats) return null
-
 
   const periods = [
 
@@ -133,7 +130,6 @@ const AdminDashboard = () => {
 
   ]
 
-
   const rankedStaff = [
     ...(stats.staff_performance || [])
   ].sort(
@@ -144,7 +140,6 @@ const AdminDashboard = () => {
       Number(a.cars_sold || 0)
   )
 
-
   const maxRevenue = Math.max(
     1,
     ...rankedStaff.map(
@@ -152,51 +147,51 @@ const AdminDashboard = () => {
     )
   )
 
-
   const rankStyles = [
     "bg-yellow-100 text-yellow-700",
     "bg-gray-100 text-gray-600",
     "bg-orange-100 text-orange-700"
   ]
 
-
   return (
 
-    <div className="w-full min-w-0 p-3 sm:p-4 md:p-6 space-y-6 sm:space-y-8 overflow-x-hidden">
-      {/* HEADER */}
+    <div className="w-full min-w-0 max-w-full px-3 py-4 sm:px-4 md:px-6 space-y-6 sm:space-y-8 overflow-x-hidden">
 
-      <div>
+      {/* ================= HEADER ================= */}
 
-        <h1 className="text-2xl font-bold mb-1">
+      <div className="flex flex-col gap-1">
+
+        <h1 className="text-xl sm:text-2xl font-bold">
           Dashboard
         </h1>
 
-        <p className="text-gray-600">
+        <p className="text-sm sm:text-base text-gray-600">
           Here's how the dealership is performing
         </p>
 
       </div>
 
 
-      {/* HERO */}
+      {/* ================= HERO ================= */}
 
       <div className="relative overflow-hidden rounded-2xl shadow-lg p-5 sm:p-6 md:p-8 text-white bg-gradient-to-br from-blue-600 via-blue-700 to-red-600">
 
-        <i className="bi bi-car-front-fill absolute -right-8 -bottom-8 text-[100px] sm:text-[140px] md:text-[180px] text-white/10 pointer-events-none"></i>
+        <i className="bi bi-car-front-fill absolute -right-10 -bottom-10 text-[100px] sm:text-[140px] md:text-[180px] text-white/10 pointer-events-none"></i>
 
-        <div className="relative z-10">
+        <div className="relative z-10 min-w-0">
 
           <p className="uppercase tracking-wide text-blue-100 text-xs sm:text-sm font-semibold mb-2">
             Total Sales Value
           </p>
 
-          <p className="text-3xl sm:text-4xl md:text-5xl font-black break-words">
+          <p className="text-2xl sm:text-4xl md:text-5xl font-black break-words leading-tight">
             {formatKsh(stats.total_sales_value)}
           </p>
 
-          <div className="grid grid-cols-2 gap-4 sm:gap-8 mt-6">
+          <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 gap-4 sm:gap-8 mt-6">
 
             <div className="min-w-0">
+
               <p className="text-blue-100 text-xs sm:text-sm">
                 Money Collected
               </p>
@@ -204,9 +199,11 @@ const AdminDashboard = () => {
               <p className="text-lg sm:text-2xl font-bold break-words">
                 {formatKsh(stats.total_collected)}
               </p>
+
             </div>
 
             <div className="min-w-0">
+
               <p className="text-blue-100 text-xs sm:text-sm">
                 Outstanding
               </p>
@@ -214,6 +211,7 @@ const AdminDashboard = () => {
               <p className="text-lg sm:text-2xl font-bold break-words">
                 {formatKsh(stats.total_outstanding)}
               </p>
+
             </div>
 
           </div>
@@ -223,15 +221,16 @@ const AdminDashboard = () => {
       </div>
 
 
-      {/* OVERVIEW */}
+      {/* ================= OVERVIEW ================= */}
 
-      <div>
+      <section>
 
-        <p className="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
+        <p className="text-xs sm:text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
           Overview
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
           <StatCard
             icon="bi-people-fill"
             label="Total Staff"
@@ -255,17 +254,19 @@ const AdminDashboard = () => {
 
         </div>
 
-      </div>
+      </section>
 
 
-      {/* INVENTORY */}
+      {/* ================= INVENTORY ================= */}
 
-      <div>
+      <section>
 
-        <p className="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
+        <p className="text-xs sm:text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
           Inventory Status
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
           <StatCard
             icon="bi-check-circle-fill"
             label="Available"
@@ -289,18 +290,19 @@ const AdminDashboard = () => {
 
         </div>
 
-      </div>
+      </section>
 
 
-      {/* PAYMENT OVERVIEW */}
+      {/* ================= PAYMENT OVERVIEW ================= */}
 
-      <div>
+      <section>
 
-        <p className="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
+        <p className="text-xs sm:text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
           Payment Overview
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
           <StatCard
             icon="bi-cash-stack"
             label="Money Collected"
@@ -324,31 +326,67 @@ const AdminDashboard = () => {
 
         </div>
 
-      </div>
+      </section>
 
 
-      {/* PAYMENT STATUS */}
+      {/* ================= PAYMENT STATUS ================= */}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-        <div className="bg-white rounded-xl shadow p-5">
+      <section>
 
-          <div className="flex items-center justify-between">
+        <p className="text-xs sm:text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
+          Payment Status
+        </p>
 
-            <div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
-              <p className="text-sm text-gray-500">
-                Fully Paid Sales
-              </p>
+          <div className="bg-white rounded-xl shadow p-4 sm:p-5">
 
-              <p className="text-3xl font-bold text-green-600 mt-1">
-                {stats.paid_sales}
-              </p>
+            <div className="flex items-center justify-between gap-4">
+
+              <div className="min-w-0">
+
+                <p className="text-xs sm:text-sm text-gray-500">
+                  Fully Paid Sales
+                </p>
+
+                <p className="text-2xl sm:text-3xl font-bold text-green-600 mt-1">
+                  {stats.paid_sales}
+                </p>
+
+              </div>
+
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-lg sm:text-xl shrink-0">
+
+                <i className="bi bi-check-circle-fill"></i>
+
+              </div>
 
             </div>
 
-            <div className="w-12 h-12 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-xl">
+          </div>
 
-              <i className="bi bi-check-circle-fill"></i>
+
+          <div className="bg-white rounded-xl shadow p-4 sm:p-5">
+
+            <div className="flex items-center justify-between gap-4">
+
+              <div className="min-w-0">
+
+                <p className="text-xs sm:text-sm text-gray-500">
+                  Partial Payments
+                </p>
+
+                <p className="text-2xl sm:text-3xl font-bold text-orange-600 mt-1">
+                  {stats.partial_sales}
+                </p>
+
+              </div>
+
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center text-lg sm:text-xl shrink-0">
+
+                <i className="bi bi-hourglass-split"></i>
+
+              </div>
 
             </div>
 
@@ -356,110 +394,83 @@ const AdminDashboard = () => {
 
         </div>
 
-
-        <div className="bg-white rounded-xl shadow p-5">
-
-          <div className="flex items-center justify-between">
-
-            <div>
-
-              <p className="text-sm text-gray-500">
-                Partial Payments
-              </p>
-
-              <p className="text-3xl font-bold text-orange-600 mt-1">
-                {stats.partial_sales}
-              </p>
-
-            </div>
-
-            <div className="w-12 h-12 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center text-xl">
-
-              <i className="bi bi-hourglass-split"></i>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
+      </section>
 
 
-      {/* PERFORMANCE */}
+      {/* ================= PERFORMANCE ================= */}
 
-      <div>
+      <section>
 
-        <p className="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
+        <p className="text-xs sm:text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
           Performance
         </p>
 
-<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
           {periods.map((period) => (
 
             <div
               key={period.label}
-              className="bg-white rounded-xl shadow p-5"
+              className="bg-white rounded-xl shadow p-4 sm:p-5 min-w-0"
             >
 
-              <p className="font-semibold mb-1">
-                {period.label}
-              </p>
+              <div className="flex items-center justify-between gap-3 mb-3">
 
+                <p className="font-semibold">
+                  {period.label}
+                </p>
 
-              {period.cars === 0 ? (
+                <span className="text-xs sm:text-sm text-gray-500 shrink-0">
+                  {period.cars} car
+                  {period.cars !== 1 ? "s" : ""}
+                </span>
 
+              </div>
+
+              {period.cars === 0 && (
                 <p className="text-gray-400 text-sm mb-3">
                   No sales yet
                 </p>
-
-              ) : (
-
-                <p className="text-gray-500 text-sm mb-3">
-                  {period.cars} car
-                  {period.cars !== 1 ? "s" : ""} sold
-                </p>
-
               )}
 
+              <div className="flex justify-between items-center gap-3 py-2 border-t">
 
-              <div className="flex justify-between items-center py-2 border-t">
-
-                <span className="text-gray-500 text-sm">
+                <span className="text-gray-500 text-xs sm:text-sm">
                   Sales Value
                 </span>
 
-                <span className="font-bold text-blue-600">
+                <span className="font-bold text-blue-600 text-sm sm:text-base text-right break-words">
                   {formatKsh(period.salesValue)}
                 </span>
 
               </div>
 
 
-              <div className="flex justify-between items-center py-2 border-t">
+              <div className="flex justify-between items-center gap-3 py-2 border-t">
 
-                <span className="text-gray-500 text-sm">
+                <span className="text-gray-500 text-xs sm:text-sm">
                   Collected
                 </span>
 
-                <span className="font-bold text-green-600">
+                <span className="font-bold text-green-600 text-sm sm:text-base text-right break-words">
                   {formatKsh(period.collected)}
                 </span>
 
               </div>
 
 
-              <div className="flex justify-between items-center py-2 border-t">
+              <div className="flex justify-between items-center gap-3 py-2 border-t">
 
-                <span className="text-gray-500 text-sm">
+                <span className="text-gray-500 text-xs sm:text-sm">
                   Profit
                 </span>
 
                 <span
-                  className={`font-bold ${Number(period.profit) >= 0
-                    ? "text-green-600"
-                    : "text-red-600"
-                    }`}
+                  className={`font-bold text-sm sm:text-base text-right break-words ${
+                    Number(period.profit) >= 0
+                      ? "text-green-600"
+                      : "text-red-600"
+                  }`}
                 >
                   {formatKsh(period.profit)}
                 </span>
@@ -472,16 +483,24 @@ const AdminDashboard = () => {
 
         </div>
 
-      </div>
+      </section>
 
 
-      {/* STAFF PERFORMANCE */}
+      {/* ================= STAFF PERFORMANCE ================= */}
 
-      <div className="bg-white rounded-xl shadow p-5">
+      <section className="bg-white rounded-xl shadow p-4 sm:p-5 min-w-0">
 
-        <h2 className="text-lg font-bold mb-4">
-          Staff Performance
-        </h2>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-5">
+
+          <h2 className="text-lg font-bold">
+            Staff Performance
+          </h2>
+
+          <span className="text-xs sm:text-sm text-gray-500">
+            {rankedStaff.length} staff
+          </span>
+
+        </div>
 
 
         {rankedStaff.length === 0 ? (
@@ -506,43 +525,54 @@ const AdminDashboard = () => {
 
               return (
 
-                <div key={staff.username}>
+                <div
+                  key={staff.username}
+                  className="min-w-0"
+                >
 
-                  <div className="flex items-center justify-between mb-1 gap-4">
+                  {/* Staff information */}
 
-                    <div className="flex items-center gap-3 min-w-0">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
+
+                    <div className="flex items-center gap-2 sm:gap-3 min-w-0">
 
                       <span
-                        className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${rankStyles[index] ||
+                        className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
+                          rankStyles[index] ||
                           "bg-blue-50 text-blue-600"
-                          }`}
+                        }`}
                       >
                         {index + 1}
                       </span>
 
-                      <span className="font-semibold truncate">
-                        {staff.username}
-                      </span>
+                      <div className="min-w-0">
 
-                      <span className="text-xs text-gray-400 shrink-0">
-                        {staff.cars_sold} car
-                        {staff.cars_sold !== 1 ? "s" : ""}
-                      </span>
+                        <p className="font-semibold truncate">
+                          {staff.username}
+                        </p>
+
+                        <p className="text-xs text-gray-400">
+                          {staff.cars_sold} car
+                          {staff.cars_sold !== 1 ? "s" : ""}
+                        </p>
+
+                      </div>
 
                     </div>
 
 
-                    <div className="text-right shrink-0">
+                    <div className="text-left sm:text-right min-w-0">
 
-                      <p className="font-semibold text-gray-800">
+                      <p className="font-semibold text-gray-800 break-words">
                         {formatKsh(staff.sales_value)}
                       </p>
 
                       <p
-                        className={`text-xs ${Number(staff.profit) >= 0
-                          ? "text-green-600"
-                          : "text-red-600"
-                          }`}
+                        className={`text-xs ${
+                          Number(staff.profit) >= 0
+                            ? "text-green-600"
+                            : "text-red-600"
+                        }`}
                       >
                         {formatKsh(staff.profit)} profit
                       </p>
@@ -552,10 +582,12 @@ const AdminDashboard = () => {
                   </div>
 
 
+                  {/* Progress */}
+
                   <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
 
                     <div
-                      className="h-full bg-blue-500 rounded-full"
+                      className="h-full bg-blue-500 rounded-full transition-all duration-500"
                       style={{
                         width: `${pct}%`
                       }}
@@ -573,16 +605,24 @@ const AdminDashboard = () => {
 
         )}
 
-      </div>
+      </section>
 
 
-      {/* RECENT SALES */}
+      {/* ================= RECENT SALES ================= */}
 
-      <div className="bg-white rounded-xl shadow overflow-hidden">
+      <section className="bg-white rounded-xl shadow overflow-hidden min-w-0">
 
-        <h2 className="text-lg font-bold p-5 pb-0">
-          Recent Sales
-        </h2>
+        <div className="p-4 sm:p-5">
+
+          <h2 className="text-lg font-bold">
+            Recent Sales
+          </h2>
+
+          <p className="text-xs sm:text-sm text-gray-500 mt-1">
+            Latest vehicle sales
+          </p>
+
+        </div>
 
 
         {stats.recent_sales.length === 0 ? (
@@ -593,47 +633,52 @@ const AdminDashboard = () => {
 
         ) : (
 
-          <div className="overflow-x-auto">
+          /*
+           * On mobile the table scrolls horizontally instead of
+           * breaking the entire page.
+           */
 
-            <table className="w-full text-left mt-3">
+          <div className="w-full overflow-x-auto">
+
+            <table className="w-full min-w-[900px] text-left">
 
               <thead className="bg-gray-50 text-gray-600 text-xs uppercase tracking-wide">
 
                 <tr>
 
-                  <th className="p-4">
+                  <th className="px-4 py-3 whitespace-nowrap">
                     Brand
                   </th>
 
-                  <th className="p-4">
+                  <th className="px-4 py-3 whitespace-nowrap">
                     VIN
                   </th>
 
-                  <th className="p-4">
+                  <th className="px-4 py-3 whitespace-nowrap">
                     Customer
                   </th>
 
-                  <th className="p-4">
+                  <th className="px-4 py-3 whitespace-nowrap">
                     Staff
                   </th>
 
-                  <th className="p-4 text-right">
+                  <th className="px-4 py-3 text-right whitespace-nowrap">
                     Sale Value
                   </th>
 
-                  <th className="p-4 text-right">
+                  <th className="px-4 py-3 text-right whitespace-nowrap">
                     Paid
                   </th>
 
-                  <th className="p-4 text-right">
+                  <th className="px-4 py-3 text-right whitespace-nowrap">
                     Balance
                   </th>
 
-                  <th className="p-4">
+                  <th className="px-4 py-3 whitespace-nowrap">
                     Status
                   </th>
 
-                  <th className="p-4">
+                  <th className="px-4 py-3 whitespace-nowrap">
                     Date
                   </th>
 
@@ -651,48 +696,49 @@ const AdminDashboard = () => {
                     className="hover:bg-gray-50"
                   >
 
-                    <td className="p-4 font-semibold">
+                    <td className="px-4 py-3 font-semibold whitespace-nowrap">
                       {sale.brand}
                     </td>
 
-                    <td className="p-4 text-gray-500">
+                    <td className="px-4 py-3 text-gray-500 whitespace-nowrap">
                       {sale.vin_number}
                     </td>
 
-                    <td className="p-4">
+                    <td className="px-4 py-3 whitespace-nowrap">
                       {sale.customer_name}
                     </td>
 
-                    <td className="p-4">
+                    <td className="px-4 py-3 whitespace-nowrap">
                       {sale.sold_by || "—"}
                     </td>
 
-                    <td className="p-4 text-right font-semibold">
+                    <td className="px-4 py-3 text-right font-semibold whitespace-nowrap">
                       {formatKsh(sale.selling_price)}
                     </td>
 
-                    <td className="p-4 text-right text-green-600 font-semibold">
+                    <td className="px-4 py-3 text-right text-green-600 font-semibold whitespace-nowrap">
                       {formatKsh(sale.amount_paid)}
                     </td>
 
-                    <td className="p-4 text-right text-orange-600 font-semibold">
+                    <td className="px-4 py-3 text-right text-orange-600 font-semibold whitespace-nowrap">
                       {formatKsh(sale.balance)}
                     </td>
 
-                    <td className="p-4">
+                    <td className="px-4 py-3 whitespace-nowrap">
 
                       <span
-                        className={`px-3 py-1 rounded-full text-xs font-semibold ${sale.payment_status === "paid"
-                          ? "bg-green-100 text-green-700"
-                          : "bg-orange-100 text-orange-700"
-                          }`}
+                        className={`inline-flex px-3 py-1 rounded-full text-xs font-semibold ${
+                          sale.payment_status === "paid"
+                            ? "bg-green-100 text-green-700"
+                            : "bg-orange-100 text-orange-700"
+                        }`}
                       >
                         {sale.payment_status}
                       </span>
 
                     </td>
 
-                    <td className="p-4 text-gray-500">
+                    <td className="px-4 py-3 text-gray-500 whitespace-nowrap">
                       {formatDate(sale.date)}
                     </td>
 
@@ -708,7 +754,7 @@ const AdminDashboard = () => {
 
         )}
 
-      </div>
+      </section>
 
     </div>
   )
